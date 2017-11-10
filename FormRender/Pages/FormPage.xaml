@@ -1,0 +1,87 @@
+﻿<Page x:Class="FormRender.Pages.FormPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="1150" d:DesignWidth="800"
+	Title="FormPage">
+    <Page.Resources>
+        <Style TargetType="TextBlock" x:Key="text">
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+    </Page.Resources>
+    <DockPanel Background="White">
+        <Image Source="/FormRender;component/Assets/header.png" DockPanel.Dock="top"/>
+        <Image Source="/FormRender;component/Assets/footer.png" DockPanel.Dock="Bottom"/>
+        <StackPanel x:Name="Title">
+            <TextBlock x:Name="txtTitle" Text="Reporte de Histopatología" FontSize="20" HorizontalAlignment="Center"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Paciente:" Style="{StaticResource text}"/>
+                        <TextBlock x:Name="txtPaciente" Style="{StaticResource text}" TextWrapping="Wrap" Width="500"/>
+                    </StackPanel>
+                    <WrapPanel>
+                        <TextBlock Text="Médico:" Style="{StaticResource text}"/>
+                        <TextBlock x:Name="txtMedico" Style="{StaticResource text}"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Text="Dirección:" Style="{StaticResource text}"/>
+                        <TextBlock x:Name="txtDireccion" Style="{StaticResource text}"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Text="Diag. Clínico:" Style="{StaticResource text}"/>
+                        <TextBlock x:Name="txtDiag" Style="{StaticResource text}"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Text="Material Estudiado:" Style="{StaticResource text}"/>
+                        <TextBlock x:Name="txtEstudiado" Style="{StaticResource text}"/>
+                    </WrapPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <WrapPanel>
+                        <TextBlock Text="Edad:" Style="{StaticResource text}"/>
+                        <TextBlock x:Name="txtEdad" Style="{StaticResource text}"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Text="Sexo:" Style="{StaticResource text}"/>
+                        <TextBlock x:Name="txtSexo" Style="{StaticResource text}"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Text="Fecha:" Style="{StaticResource text}"/>
+                        <TextBlock x:Name="txtFecha" Style="{StaticResource text}"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Text="Recibido:" Style="{StaticResource text}"/>
+                        <TextBlock x:Name="txtRecv" Style="{StaticResource text}"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Text="No. biopsia:" Style="{StaticResource text}"/>
+                        <TextBlock x:Name="txtBiop" Style="{StaticResource text}"/>
+                    </WrapPanel>
+                </StackPanel>
+            </Grid>
+            <TextBlock Text="INFORME" FontSize="24" HorizontalAlignment="Center"/>
+            <Separator Background="Black" Height="3"/>
+            <Grid x:Name="grdClientArea">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" x:Name="grdWidth"/>
+                    <ColumnDefinition/>                    
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.ColumnSpan="2">
+                    <TextBlock
+                        x:Name="txtCortado" 
+                        Width="{Binding ActualWidth, ElementName=grdWidth}"
+                        HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="txtCompleto"/>                    
+                </StackPanel>
+                <StackPanel Grid.Column="1" x:Name="pnlImagenes"/>                
+            </Grid>
+        </StackPanel>
+    </DockPanel>
+</Page>
