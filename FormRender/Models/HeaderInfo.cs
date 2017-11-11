@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FormRender.Models
 {
-    struct HeaderInfo
+    public struct HeaderInfo
     {
         public string Paciente;
         public string Medico;

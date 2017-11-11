@@ -4,84 +4,90 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="1150" d:DesignWidth="800"
+      d:DesignHeight="575" d:DesignWidth="400"
 	Title="FormPage">
     <Page.Resources>
         <Style TargetType="TextBlock" x:Key="text">
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="5"/>
         </Style>
     </Page.Resources>
     <DockPanel Background="White">
         <Image Source="/FormRender;component/Assets/header.png" DockPanel.Dock="top"/>
         <Image Source="/FormRender;component/Assets/footer.png" DockPanel.Dock="Bottom"/>
         <StackPanel x:Name="Title">
-            <TextBlock x:Name="txtTitle" Text="Reporte de Histopatología" FontSize="20" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="txtTitle" Text="Reporte de Histopatología" FontSize="16" HorizontalAlignment="Center"/>
             <Grid>
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="12"/>
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                    </Style>
+                </Grid.Resources>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Paciente:" Style="{StaticResource text}"/>
-                        <TextBlock x:Name="txtPaciente" Style="{StaticResource text}" TextWrapping="Wrap" Width="500"/>
+                        <TextBlock Text="Paciente:"/>
+                        <TextBlock x:Name="txtPaciente"/>
                     </StackPanel>
                     <WrapPanel>
-                        <TextBlock Text="Médico:" Style="{StaticResource text}"/>
-                        <TextBlock x:Name="txtMedico" Style="{StaticResource text}"/>
+                        <TextBlock Text="Médico:"/>
+                        <TextBlock x:Name="txtMedico"/>
                     </WrapPanel>
                     <WrapPanel>
-                        <TextBlock Text="Dirección:" Style="{StaticResource text}"/>
-                        <TextBlock x:Name="txtDireccion" Style="{StaticResource text}"/>
+                        <TextBlock Text="Dirección:"/>
+                        <TextBlock x:Name="txtDireccion"/>
                     </WrapPanel>
                     <WrapPanel>
-                        <TextBlock Text="Diag. Clínico:" Style="{StaticResource text}"/>
-                        <TextBlock x:Name="txtDiag" Style="{StaticResource text}"/>
+                        <TextBlock Text="Diag. Clínico:"/>
+                        <TextBlock x:Name="txtDiag"/>
                     </WrapPanel>
                     <WrapPanel>
-                        <TextBlock Text="Material Estudiado:" Style="{StaticResource text}"/>
-                        <TextBlock x:Name="txtEstudiado" Style="{StaticResource text}"/>
+                        <TextBlock Text="Material Estudiado:"/>
+                        <TextBlock x:Name="txtEstudiado"/>
                     </WrapPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <WrapPanel>
-                        <TextBlock Text="Edad:" Style="{StaticResource text}"/>
-                        <TextBlock x:Name="txtEdad" Style="{StaticResource text}"/>
+                        <TextBlock Text="Edad:"/>
+                        <TextBlock x:Name="txtEdad"/>
+                        <TextBlock Text="Sexo:"/>
+                        <TextBlock x:Name="txtSexo"/>
                     </WrapPanel>
                     <WrapPanel>
-                        <TextBlock Text="Sexo:" Style="{StaticResource text}"/>
-                        <TextBlock x:Name="txtSexo" Style="{StaticResource text}"/>
+                        <TextBlock Text="Fecha:"/>
+                        <TextBlock x:Name="txtFecha"/>
                     </WrapPanel>
                     <WrapPanel>
-                        <TextBlock Text="Fecha:" Style="{StaticResource text}"/>
-                        <TextBlock x:Name="txtFecha" Style="{StaticResource text}"/>
+                        <TextBlock Text="Recibido:"/>
+                        <TextBlock x:Name="txtRecv"/>
                     </WrapPanel>
                     <WrapPanel>
-                        <TextBlock Text="Recibido:" Style="{StaticResource text}"/>
-                        <TextBlock x:Name="txtRecv" Style="{StaticResource text}"/>
-                    </WrapPanel>
-                    <WrapPanel>
-                        <TextBlock Text="No. biopsia:" Style="{StaticResource text}"/>
-                        <TextBlock x:Name="txtBiop" Style="{StaticResource text}"/>
+                        <TextBlock Text="No. biopsia:"/>
+                        <TextBlock x:Name="txtBiop"/>
                     </WrapPanel>
                 </StackPanel>
             </Grid>
-            <TextBlock Text="INFORME" FontSize="24" HorizontalAlignment="Center"/>
+            <TextBlock Text="INFORME" FontSize="16" HorizontalAlignment="Center"/>
             <Separator Background="Black" Height="3"/>
-            <Grid x:Name="grdClientArea">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" x:Name="grdWidth"/>
-                    <ColumnDefinition/>                    
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.ColumnSpan="2">
-                    <TextBlock
-                        x:Name="txtCortado" 
-                        Width="{Binding ActualWidth, ElementName=grdWidth}"
-                        HorizontalAlignment="Left"/>
-                    <TextBlock x:Name="txtCompleto"/>                    
-                </StackPanel>
-                <StackPanel Grid.Column="1" x:Name="pnlImagenes"/>                
-            </Grid>
+            <FlowDocumentScrollViewer VerticalScrollBarVisibility="Disabled">
+                <FlowDocument>
+                    <Paragraph>
+                        <Floater HorizontalAlignment="Right" Width="150" x:Name="fltImages">
+                            <Floater.Resources>
+                                <Style TargetType="Image">                                    
+                                    <Setter Property="Margin" Value="10"/>                                    
+                                </Style>
+                            </Floater.Resources>
+                        </Floater>
+                        <Run x:Name="txtTexto"/>
+                    </Paragraph>
+                </FlowDocument>
+            </FlowDocumentScrollViewer>
         </StackPanel>
     </DockPanel>
 </Page>

@@ -1,1 +1,17 @@
 C:\Users\gbelo\Documents\Proyectos\c#\FormRender\FormRender\bin\Debug\FormRender.exe.config
+C:\Users\xds_x\src\LabMedPato\FormRender\bin\Debug\FormRender.exe.config
+C:\Users\xds_x\src\LabMedPato\FormRender\bin\Debug\FormRender.exe
+C:\Users\xds_x\src\LabMedPato\FormRender\bin\Debug\FormRender.pdb
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\FormRender.csprojResolveAssemblyReference.cache
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\MainWindow.baml
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\Pages\FormPage.baml
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\MainWindow.g.cs
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\Pages\FormPage.g.cs
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\App.g.cs
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\FormRender_MarkupCompile.cache
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\FormRender.g.resources
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\FormRender.Properties.Resources.resources
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\FormRender.csproj.GenerateResource.Cache
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\FormRender.csproj.CoreCompileInputs.cache
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\FormRender.exe
+C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\FormRender.pdb

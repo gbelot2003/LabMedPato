@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace FormRender.Models
 {
-    struct Diagnostico
+    public struct Diagnostico
     {
-        public string TextoCortado;
-        public string TextoResto;
+        public string Texto;
         public string[] RutaImagen;
     }
 }

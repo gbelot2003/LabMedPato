@@ -26,6 +26,8 @@ namespace FormRender.Pages
         {
             InitializeComponent();
 
+            //txtCortado.SetBinding(WidthProperty, new Binding("ActualWidth") { Source = grdWidth });
+
             //Llenar header...
             txtPaciente.Text = header.Paciente;
             txtMedico.Text = header.Medico;
@@ -39,14 +41,13 @@ namespace FormRender.Pages
             txtBiop.Text = header.Biopsia;
 
             //Crear informe...
-            txtCortado.Text = diag.TextoCortado;
-            txtCompleto.Text = diag.TextoResto;
-
+            txtTexto.Text = diag.Texto;
             foreach (var j in diag.RutaImagen) 
             {                
                 BitmapImage i = new BitmapImage(new Uri(j));
                 Image img = new Image { Source = i };
-                pnlImagenes.Children.Add(img);
+                BlockUIContainer bl = new BlockUIContainer(img);
+                fltImages.Blocks.Add(bl);
             }
 
             //Ajustar tamaño de columna...
@@ -55,7 +56,5 @@ namespace FormRender.Pages
                 //case 2:
             //}
         }
-
-
     }
 }
