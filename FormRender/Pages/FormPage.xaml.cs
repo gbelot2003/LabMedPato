@@ -14,6 +14,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FormRender.Models;
 using System.Drawing;
+using System.IO;
+using System.Xml;
+using XA = System.Windows.Markup.XamlReader;
+using HTC = HTMLConverter.HtmlToXamlConverter;
+using MCART;
 
 namespace FormRender.Pages
 {
@@ -40,21 +45,47 @@ namespace FormRender.Pages
             txtRecv.Text = header.Recibido.ToString();
             txtBiop.Text = header.Biopsia;
 
-            //Crear informe...
-            txtTexto.Text = diag.Texto;
-            foreach (var j in diag.RutaImagen) 
-            {                
-                BitmapImage i = new BitmapImage(new Uri(j));
+            // HACK: Parsear y extraer texto desde html...
+            FlowDocument oo = XA.Parse(HTC.ConvertHtmlToXaml(diag.Texto, true)) as FlowDocument;
+            while (oo?.Blocks.Any() ?? false)
+            {
+                oo.Blocks.FirstBlock.FontFamily = FindResource("fntFmly") as FontFamily;
+                oo.Blocks.FirstBlock.FontSize = (double)FindResource("fntSze");
+                par.SiblingBlocks.Add(oo.Blocks.FirstBlock);
+            }        
+            
+            foreach (var j in diag.RutaImagen)
+            {
+                BitmapImage i = new BitmapImage(new Uri(j.RutaImagen));
                 Image img = new Image { Source = i };
-                BlockUIContainer bl = new BlockUIContainer(img);
+                TextBlock lbl = new TextBlock { Text = j.Titulo };
+                StackPanel pnl = new StackPanel { Children = { img, lbl } };
+                BlockUIContainer bl = new BlockUIContainer(pnl);
                 fltImages.Blocks.Add(bl);
             }
-
+            
             //Ajustar tamaño de columna...
-            //switch (diag.RutaImagen.Length)
-            //{
-                //case 2:
-            //}
+            switch (diag.RutaImagen.Length)
+            {
+                case 0:                    
+                    par.Inlines.Remove(fltImages);
+                    break;
+                case 1:break;
+                case 2:
+                    fltImages.Width = 150;
+                    break;
+                default:
+                    fltImages.Width = 150;
+                    break;
+            }
+        }
+
+        public BitmapSource GetPage(Size pageSize, short dpi = 300)
+        {
+            Size ctrlSze = new Size(pageSize.Width * 96 / dpi, pageSize.Height * 96 / 300);
+            Measure(ctrlSze);
+            Arrange(new Rect(ctrlSze));
+            return this.Render(pageSize, dpi);
         }
     }
 }
