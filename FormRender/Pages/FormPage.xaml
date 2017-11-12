@@ -9,12 +9,12 @@
 	Title="FormPage">
     <Page.Resources>
         <FontFamily x:Key="fntFmly">Arial</FontFamily>
-        <system:Double x:Key="fntSze">14</system:Double>        
+        <system:Double x:Key="fntSze">14</system:Double>
     </Page.Resources>
-    <DockPanel Background="White">
+    <DockPanel Background="White" x:Name="RootContent">
         <Image Source="/FormRender;component/Assets/header.png" DockPanel.Dock="top"/>
         <Image Source="/FormRender;component/Assets/footer.png" DockPanel.Dock="Bottom"/>
-        <StackPanel x:Name="Content">
+        <StackPanel>
             <TextBlock x:Name="txtTitle" Text="Reporte de Histopatología" FontSize="16" HorizontalAlignment="Center"/>
             <Grid Margin="35,0">
                 <Grid.Resources>
@@ -78,8 +78,12 @@
             </Grid>
             <TextBlock Text="INFORME" FontSize="16" HorizontalAlignment="Center" FontWeight="Bold"/>
             <Separator Background="Black" Height="3"/>
-            <FlowDocumentScrollViewer VerticalScrollBarVisibility="Disabled" Margin="35,0">
-                <FlowDocument>
+            <FlowDocumentPageViewer
+                x:Name="fdpwContent"
+                Margin="35,0"
+                TextOptions.TextFormattingMode="Display"                
+                FontFamily="{DynamicResource fntFmly}">
+                <FlowDocument PageHeight="700" ColumnWidth="99999">                    
                     <Paragraph
                         FontFamily="{StaticResource fntFmly}"
                         FontSize="{StaticResource fntSze}" x:Name="par">
@@ -102,7 +106,7 @@
                         </Floater>                        
                     </Paragraph>                    
                 </FlowDocument>
-            </FlowDocumentScrollViewer>
+            </FlowDocumentPageViewer>
         </StackPanel>
     </DockPanel>
 </Page>

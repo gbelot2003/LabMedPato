@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="400">
     <Grid>
-        
+        <Image x:Name="frame"/>
+        <Button Content="Impirmir" x:Name="btnPrint" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnPrint_Click"/>
     </Grid>
 </Window>

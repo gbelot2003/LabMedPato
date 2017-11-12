@@ -3691,31 +3691,49 @@
         </member>
         <member name="M:MCART.Security.Password.PwEvalRule.#ctor(MCART.Security.Password.PwEvalFunc,System.String,MCART.Security.Password.PonderationLevel,System.String,System.Boolean,System.Boolean)">
             <summary>
-            Initializes a new instance of the <see cref="T:MCART.Security.Password.PwEvalRule"/> class.
+            Inicializa una nueva instancia de la clase 
+            <see cref="T:MCART.Security.Password.PwEvalRule"/>.
             </summary>
-            <param name="evalFunc">Eval func.</param>
-            <param name="name">Name.</param>
-            <param name="ponderation">Ponderation.</param>
-            <param name="description">Description.</param>
-            <param name="defaultEnable">If set to <c>true</c> default enable.</param>
-            <param name="isExtra">If set to <c>true</c> is extra.</param>
+            <param name="evalFunc">Función de evaluación.</param>
+            <param name="name">Nombre de la regla.</param>
+            <param name="ponderation">Ponderación a aplicar.</param>
+            <param name="description">Descripción de la regla.</param>
+            <param name="defaultEnable">
+            Si se establece en <c>true</c>, la regla estará activa de forma
+            predeterminada.
+            </param>
+            <param name="isExtra">
+            Si se establece en <c>true</c>, el resultado de esta regla se
+            tomará en cuenta como puntos extra.
+            </param>
         </member>
         <member name="M:MCART.Security.Password.PwEvalRule.#ctor(MCART.Security.Password.PwEvalFunc,MCART.Attributes.NameAttribute,MCART.Security.Password.PonderationAttribute,MCART.Attributes.DescriptionAttribute,MCART.Security.Password.DefaultEnableAttribute,MCART.Security.Password.ExtraPointsAttribute)">
             <summary>
-            Initializes a new instance of the <see cref="T:MCART.Security.Password.PwEvalRule"/> class.
+            Inicializa una nueva instancia de la clase 
+            <see cref="T:MCART.Security.Password.PwEvalRule"/>.
             </summary>
-            <param name="evalFunc">Eval func.</param>
-            <param name="name">Name.</param>
-            <param name="ponderation">Ponderation.</param>
-            <param name="description">Description.</param>
-            <param name="defaultEnable">Default enable.</param>
-            <param name="isExtra">Is extra.</param>
+            <param name="evalFunc">Función de evaluación.</param>
+            <param name="name">Nombre de la regla.</param>
+            <param name="ponderation">Ponderación a aplicar.</param>
+            <param name="description">Descripción de la regla.</param>
+            <param name="defaultEnable">
+            Si se establece en <c>true</c>, la regla estará activa de forma
+            predeterminada.
+            </param>
+            <param name="isExtra">
+            Si se establece en <c>true</c>, el resultado de esta regla se
+            tomará en cuenta como puntos extra.
+            </param>
         </member>
         <member name="M:MCART.Security.Password.PwEvalRule.#ctor(MCART.Security.Password.PwEvalFunc)">
             <summary>
-            Initializes a new instance of the <see cref="T:MCART.Security.Password.PwEvalRule"/> class.
+            Inicializa una nueva instancia de la clase 
+            <see cref="T:MCART.Security.Password.PwEvalRule"/>.
             </summary>
-            <param name="evalFunc">Eval func.</param>
+            <param name="evalFunc">
+            Función de evaluación. Debería contener todas sus propiedades
+            indicadas como atributos.
+            </param>
         </member>
         <member name="T:MCART.Security.Password.PonderationAttribute">
             <summary>
@@ -3790,9 +3808,10 @@
         </member>
         <member name="M:MCART.Security.Password.PwEvaluator.#ctor(MCART.Security.Password.PwEvalRule[])">
             <summary>
-            Initializes a new instance of the <see cref="T:MCART.Security.Password.PwEvaluator"/> class.
+            Inicializa una nueva instancia de la clase
+            <see cref="T:MCART.Security.Password.PwEvaluator"/>.
             </summary>
-            <param name="evalFuncs">Eval funcs.</param>
+            <param name="evalRules">Reglas de evaluacióna incluir.</param>
         </member>
         <member name="T:MCART.Security.Password.RuleSets">
             <summary>
@@ -6692,8 +6711,9 @@
             <summary>
             Destruye el contenido del <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="fs"><see cref="T:System.IO.Stream"/> del cual este método es
-            una extensión.</param>
+            <param name="fs">
+            <see cref="T:System.IO.Stream"/> del cual este método es una extensión.
+            </param>
         </member>
         <member name="M:MCART.Types.Extensions.StreamExtensions.Skip(System.IO.Stream,System.Int32)">
             <summary>
@@ -6892,7 +6912,10 @@
             Convierte una colección a <see cref="T:MCART.Types.Extensions.List`1"/>
             </summary>
             <param name="c">Colección a convertir</param>
-            <returns>Un <see cref="T:MCART.Types.Extensions.List`1"/> extendido del espacio de nombres <c>MCART.TypeExtensions</c></returns>
+            <returns>
+            Un <see cref="T:MCART.Types.Extensions.List`1"/> extendido del espacio de nombres 
+            <c>MCART.TypeExtensions</c>.
+            </returns>
         </member>
         <member name="M:MCART.Types.Extensions.IEnumerableExtensions.Rotate``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
             <summary>Rota los elementos de un arreglo, lista o colección.</summary>
@@ -8066,6 +8089,29 @@
             renderizada de <paramref name="f"/>.
             </returns>
         </member>
+        <member name="M:MCART.UI.Render(System.Windows.FrameworkElement,System.Windows.Size,System.Windows.Size,System.Int32)">
+            <summary>
+            Crea un mapa de bits de un <see cref="T:System.Windows.FrameworkElement"/>
+            estableciendo el tamaño en el cual se dibujará el control, por lo
+            que no necesita haberse mostrado en la interfaz de usuario.
+            </summary>
+            <param name="f">
+            <see cref="T:System.Windows.FrameworkElement"/> a renderizar.
+            </param>
+            <param name="inSize">
+            Tamaño del control a renderizar.
+            </param>
+            <param name="outSize">
+            Tamaño del canvas en donde se renderizará el control.
+            </param>
+            <param name="dpi">
+            Valor de puntos por pulgada a utilizar para crear el mapa de bits.
+            </param>
+            <returns>
+            Un objeto <see cref="T:System.Windows.Media.Imaging.RenderTargetBitmap"/> que contiene una imagen
+            renderizada de <paramref name="f"/>.
+            </returns>
+        </member>
         <member name="M:MCART.UI.GetCircleArc(System.Double,System.Double,System.Double)">
             <summary>
             Genera un arco de círculo que puede usarse en Windows Presentation
@@ -8231,6 +8277,17 @@
             Limpia el texto del control.
             </summary>
             <param name="control">Control a limpiar.</param>
+        </member>
+        <member name="M:MCART.UI.ToImage(System.Windows.Media.Imaging.BitmapSource)">
+            <summary>
+            Convierte un <see cref="T:System.Windows.Media.Imaging.BitmapSource"/> en un 
+            <see cref="T:System.Windows.Media.Imaging.BitmapImage"/>.
+            </summary>
+            <param name="bs"><see cref="T:System.Windows.Media.Imaging.BitmapSource"/> a convertir.</param>
+            <returns>
+            Un <see cref="T:System.Windows.Media.Imaging.BitmapImage"/> que contiene la imagen obtenida desde
+            un <see cref="T:System.Windows.Media.Imaging.BitmapSource"/>.
+            </returns>
         </member>
         <member name="M:MCART.UI.PickBrush">
             <summary>

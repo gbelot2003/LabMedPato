@@ -19,6 +19,7 @@ using System.Xml;
 using XA = System.Windows.Markup.XamlReader;
 using HTC = HTMLConverter.HtmlToXamlConverter;
 using MCART;
+using System.Windows.Markup;
 
 namespace FormRender.Pages
 {
@@ -52,8 +53,8 @@ namespace FormRender.Pages
                 oo.Blocks.FirstBlock.FontFamily = FindResource("fntFmly") as FontFamily;
                 oo.Blocks.FirstBlock.FontSize = (double)FindResource("fntSze");
                 par.SiblingBlocks.Add(oo.Blocks.FirstBlock);
-            }        
-            
+            }
+
             foreach (var j in diag.RutaImagen)
             {
                 BitmapImage i = new BitmapImage(new Uri(j.RutaImagen));
@@ -63,14 +64,14 @@ namespace FormRender.Pages
                 BlockUIContainer bl = new BlockUIContainer(pnl);
                 fltImages.Blocks.Add(bl);
             }
-            
+
             //Ajustar tamaño de columna...
             switch (diag.RutaImagen.Length)
             {
-                case 0:                    
+                case 0:
                     par.Inlines.Remove(fltImages);
                     break;
-                case 1:break;
+                case 1: break;
                 case 2:
                     fltImages.Width = 150;
                     break;
@@ -80,12 +81,40 @@ namespace FormRender.Pages
             }
         }
 
-        public BitmapSource GetPage(Size pageSize, short dpi = 300)
+        public void Print(Size pageSize, short dpi = 300)
         {
             Size ctrlSze = new Size(pageSize.Width * 96 / dpi, pageSize.Height * 96 / 300);
+            PrintDialog dialog = new PrintDialog();
             Measure(ctrlSze);
             Arrange(new Rect(ctrlSze));
-            return this.Render(pageSize, dpi);
+            //UpdateLayout();
+            if (fdpwContent.PageCount == 1)
+            {
+                //Render compacto de una página
+                fdpwContent.UpdateLayout();
+                dialog.PrintVisual(this, $"Biopsia {txtBiop.Text}");
+            }
+            else
+            {
+                //HACK: Las páginas deben renderizarse como bitmaps antes de imprimirse...
+                var document = new FixedDocument();
+                document.DocumentPaginator.PageSize = pageSize;
+                for (int j = 0; j < fdpwContent.PageCount; j++)
+                {
+                    var fixedPage = new FixedPage
+                    {
+                        Width = ctrlSze.Width,
+                        Height = ctrlSze.Height
+                    };
+                    fdpwContent.UpdateLayout();
+                    fixedPage.Children.Add(new Image { Source = this.Render(ctrlSze, pageSize, 300) });
+                    var pageContent = new PageContent();
+                    ((IAddChild)pageContent).AddChild(fixedPage);
+                    document.Pages.Add(pageContent);
+                    fdpwContent.NextPage();
+                }
+                dialog.PrintDocument(document.DocumentPaginator, $"Biopsia {txtBiop.Text}");
+            }
         }
     }
 }
