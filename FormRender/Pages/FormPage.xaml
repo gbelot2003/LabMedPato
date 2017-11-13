@@ -2,92 +2,111 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
-      d:DesignHeight="575" d:DesignWidth="400"
+      d:DesignHeight="1150" d:DesignWidth="800"
 	Title="FormPage">
     <Page.Resources>
-        <Style TargetType="TextBlock" x:Key="text">
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Margin" Value="5"/>
-        </Style>
+        <FontFamily x:Key="fntFmly">Arial</FontFamily>
+        <system:Double x:Key="fntSze">14</system:Double>
     </Page.Resources>
-    <DockPanel Background="White">
+    <DockPanel Background="White" x:Name="RootContent">
         <Image Source="/FormRender;component/Assets/header.png" DockPanel.Dock="top"/>
         <Image Source="/FormRender;component/Assets/footer.png" DockPanel.Dock="Bottom"/>
-        <StackPanel x:Name="Title">
+        <StackPanel>
             <TextBlock x:Name="txtTitle" Text="Reporte de Histopatología" FontSize="16" HorizontalAlignment="Center"/>
-            <Grid>
+            <Grid Margin="35,0">
                 <Grid.Resources>
                     <Style TargetType="TextBlock">
-                        <Setter Property="FontSize" Value="12"/>
-                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="Margin" Value="5,5,0,0"/>
                         <Setter Property="TextWrapping" Value="Wrap"/>
+                        <Setter Property="FontFamily" Value="{StaticResource fntFmly}"/>
+                        <Setter Property="FontSize" Value="{StaticResource fntSze}"/>
                     </Style>
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Paciente:"/>
+                    <DockPanel>
+                        <TextBlock Text="Paciente:" FontWeight="Bold"/>
                         <TextBlock x:Name="txtPaciente"/>
-                    </StackPanel>
-                    <WrapPanel>
-                        <TextBlock Text="Médico:"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Text="Médico:" FontWeight="Bold"/>
                         <TextBlock x:Name="txtMedico"/>
-                    </WrapPanel>
-                    <WrapPanel>
-                        <TextBlock Text="Dirección:"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Text="Dirección:" FontWeight="Bold"/>
                         <TextBlock x:Name="txtDireccion"/>
-                    </WrapPanel>
-                    <WrapPanel>
-                        <TextBlock Text="Diag. Clínico:"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Text="Diag. Clínico:" FontWeight="Bold"/>
                         <TextBlock x:Name="txtDiag"/>
-                    </WrapPanel>
-                    <WrapPanel>
-                        <TextBlock Text="Material Estudiado:"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Text="Material Estudiado:" FontWeight="Bold"/>
                         <TextBlock x:Name="txtEstudiado"/>
-                    </WrapPanel>
+                    </DockPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <WrapPanel>
-                        <TextBlock Text="Edad:"/>
-                        <TextBlock x:Name="txtEdad"/>
-                        <TextBlock Text="Sexo:"/>
-                        <TextBlock x:Name="txtSexo"/>
+                        <DockPanel>
+                            <TextBlock Text="Edad:" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtEdad" Text="9"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <TextBlock Text="Sexo:" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtSexo" Text="M"/>
+                        </DockPanel>
                     </WrapPanel>
-                    <WrapPanel>
-                        <TextBlock Text="Fecha:"/>
+                    <DockPanel>
+                        <TextBlock Text="Fecha:" FontWeight="Bold"/>
                         <TextBlock x:Name="txtFecha"/>
-                    </WrapPanel>
-                    <WrapPanel>
-                        <TextBlock Text="Recibido:"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Text="Recibido:" FontWeight="Bold"/>
                         <TextBlock x:Name="txtRecv"/>
-                    </WrapPanel>
-                    <WrapPanel>
-                        <TextBlock Text="No. biopsia:"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Text="No. biopsia:" FontWeight="Bold"/>
                         <TextBlock x:Name="txtBiop"/>
-                    </WrapPanel>
+                    </DockPanel>
                 </StackPanel>
             </Grid>
-            <TextBlock Text="INFORME" FontSize="16" HorizontalAlignment="Center"/>
+            <TextBlock Text="INFORME" FontSize="16" HorizontalAlignment="Center" FontWeight="Bold"/>
             <Separator Background="Black" Height="3"/>
-            <FlowDocumentScrollViewer VerticalScrollBarVisibility="Disabled">
-                <FlowDocument>
-                    <Paragraph>
-                        <Floater HorizontalAlignment="Right" Width="150" x:Name="fltImages">
+            <FlowDocumentPageViewer
+                x:Name="fdpwContent"
+                Margin="35,0"
+                TextOptions.TextFormattingMode="Display"                
+                FontFamily="{DynamicResource fntFmly}">
+                <FlowDocument PageHeight="700" ColumnWidth="99999">                    
+                    <Paragraph
+                        FontFamily="{StaticResource fntFmly}"
+                        FontSize="{StaticResource fntSze}" x:Name="par">
+                        <Floater HorizontalAlignment="Right" Width="250" x:Name="fltImages">
                             <Floater.Resources>
-                                <Style TargetType="Image">                                    
-                                    <Setter Property="Margin" Value="10"/>                                    
+                                <Style TargetType="Image">
+                                    <Setter Property="Margin" Value="10"/>
+                                </Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="FontStyle" Value="Italic"/>
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                    <Setter Property="Margin" Value="0,0,0,5"/>
+                                </Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Background" Value="LightGray"/>
+                                    <Setter Property="Margin" Value="0,10,-10,0"/>
                                 </Style>
                             </Floater.Resources>
-                        </Floater>
-                        <Run x:Name="txtTexto"/>
-                    </Paragraph>
+                        </Floater>                        
+                    </Paragraph>                    
                 </FlowDocument>
-            </FlowDocumentScrollViewer>
+            </FlowDocumentPageViewer>
         </StackPanel>
     </DockPanel>
 </Page>

@@ -15,3 +15,6 @@ C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\FormRender.csproj.GenerateRes
 C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\FormRender.csproj.CoreCompileInputs.cache
 C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\FormRender.exe
 C:\Users\xds_x\src\LabMedPato\FormRender\obj\Debug\FormRender.pdb
+C:\Users\xds_x\src\LabMedPato\FormRender\bin\Debug\MCART.dll
+C:\Users\xds_x\src\LabMedPato\FormRender\bin\Debug\MCART.pdb
+C:\Users\xds_x\src\LabMedPato\FormRender\bin\Debug\MCART.xml

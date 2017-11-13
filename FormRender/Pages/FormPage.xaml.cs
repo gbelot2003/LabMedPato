@@ -14,6 +14,12 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FormRender.Models;
 using System.Drawing;
+using System.IO;
+using System.Xml;
+using XA = System.Windows.Markup.XamlReader;
+using HTC = HTMLConverter.HtmlToXamlConverter;
+using MCART;
+using System.Windows.Markup;
 
 namespace FormRender.Pages
 {
@@ -40,21 +46,75 @@ namespace FormRender.Pages
             txtRecv.Text = header.Recibido.ToString();
             txtBiop.Text = header.Biopsia;
 
-            //Crear informe...
-            txtTexto.Text = diag.Texto;
-            foreach (var j in diag.RutaImagen) 
-            {                
-                BitmapImage i = new BitmapImage(new Uri(j));
+            // HACK: Parsear y extraer texto desde html...
+            FlowDocument oo = XA.Parse(HTC.ConvertHtmlToXaml(diag.Texto, true)) as FlowDocument;
+            while (oo?.Blocks.Any() ?? false)
+            {
+                oo.Blocks.FirstBlock.FontFamily = FindResource("fntFmly") as FontFamily;
+                oo.Blocks.FirstBlock.FontSize = (double)FindResource("fntSze");
+                par.SiblingBlocks.Add(oo.Blocks.FirstBlock);
+            }
+
+            foreach (var j in diag.RutaImagen)
+            {
+                BitmapImage i = new BitmapImage(new Uri(j.RutaImagen));
                 Image img = new Image { Source = i };
-                BlockUIContainer bl = new BlockUIContainer(img);
+                TextBlock lbl = new TextBlock { Text = j.Titulo };
+                StackPanel pnl = new StackPanel { Children = { img, lbl } };
+                BlockUIContainer bl = new BlockUIContainer(pnl);
                 fltImages.Blocks.Add(bl);
             }
 
             //Ajustar tamaño de columna...
-            //switch (diag.RutaImagen.Length)
-            //{
-                //case 2:
-            //}
+            switch (diag.RutaImagen.Length)
+            {
+                case 0:
+                    par.Inlines.Remove(fltImages);
+                    break;
+                case 1: break;
+                case 2:
+                    fltImages.Width = 150;
+                    break;
+                default:
+                    fltImages.Width = 150;
+                    break;
+            }
+        }
+
+        public void Print(Size pageSize, short dpi = 300)
+        {
+            Size ctrlSze = new Size(pageSize.Width * 96 / dpi, pageSize.Height * 96 / 300);
+            PrintDialog dialog = new PrintDialog();
+            Measure(ctrlSze);
+            Arrange(new Rect(ctrlSze));
+            //UpdateLayout();
+            if (fdpwContent.PageCount == 1)
+            {
+                //Render compacto de una página
+                fdpwContent.UpdateLayout();
+                dialog.PrintVisual(this, $"Biopsia {txtBiop.Text}");
+            }
+            else
+            {
+                //HACK: Las páginas deben renderizarse como bitmaps antes de imprimirse...
+                var document = new FixedDocument();
+                document.DocumentPaginator.PageSize = pageSize;
+                for (int j = 0; j < fdpwContent.PageCount; j++)
+                {
+                    var fixedPage = new FixedPage
+                    {
+                        Width = ctrlSze.Width,
+                        Height = ctrlSze.Height
+                    };
+                    fdpwContent.UpdateLayout();
+                    fixedPage.Children.Add(new Image { Source = this.Render(ctrlSze, pageSize, 300) });
+                    var pageContent = new PageContent();
+                    ((IAddChild)pageContent).AddChild(fixedPage);
+                    document.Pages.Add(pageContent);
+                    fdpwContent.NextPage();
+                }
+                dialog.PrintDocument(document.DocumentPaginator, $"Biopsia {txtBiop.Text}");
+            }
         }
     }
 }

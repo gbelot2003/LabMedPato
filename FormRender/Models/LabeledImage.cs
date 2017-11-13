@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FormRender.Models
 {
-    public struct Diagnostico
+    public struct LabeledImage
     {
-        public string Texto;
-        public LabeledImage[] RutaImagen;
+        public string RutaImagen;
+        public string Titulo;
     }
 }
