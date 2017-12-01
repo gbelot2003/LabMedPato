@@ -1,25 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FormRender.Models;
+using MCART;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using FormRender.Models;
-using System.Drawing;
-using System.IO;
-using System.Xml;
-using XA = System.Windows.Markup.XamlReader;
-using HTC = HTMLConverter.HtmlToXamlConverter;
-using MCART;
 using System.Windows.Markup;
+using System.Windows.Media;
+using HTC = HTMLConverter.HtmlToXamlConverter;
+using XA = System.Windows.Markup.XamlReader;
 
 namespace FormRender.Pages
 {
@@ -55,10 +43,9 @@ namespace FormRender.Pages
                 par.SiblingBlocks.Add(oo.Blocks.FirstBlock);
             }
 
-            foreach (var j in diag.RutaImagen)
+            foreach (var j in diag.Imagenes)
             {
-                BitmapImage i = new BitmapImage(new Uri(j.RutaImagen));
-                Image img = new Image { Source = i };
+                Image img = new Image { Source = UI.GetImageHttp(j.RutaImagen) };
                 TextBlock lbl = new TextBlock { Text = j.Titulo };
                 StackPanel pnl = new StackPanel { Children = { img, lbl } };
                 BlockUIContainer bl = new BlockUIContainer(pnl);
@@ -66,7 +53,7 @@ namespace FormRender.Pages
             }
 
             //Ajustar tamaño de columna...
-            switch (diag.RutaImagen.Length)
+            switch (diag.Imagenes.Length)
             {
                 case 0:
                     par.Inlines.Remove(fltImages);

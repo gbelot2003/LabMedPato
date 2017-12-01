@@ -99,7 +99,7 @@
                                     <Setter Property="Margin" Value="0,0,0,5"/>
                                 </Style>
                                 <Style TargetType="StackPanel">
-                                    <Setter Property="Background" Value="LightGray"/>
+                                    <!--<Setter Property="Background" Value="LightGray"/>-->
                                     <Setter Property="Margin" Value="0,10,-10,0"/>
                                 </Style>
                             </Floater.Resources>

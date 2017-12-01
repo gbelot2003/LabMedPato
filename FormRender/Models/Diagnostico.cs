@@ -9,6 +9,6 @@ namespace FormRender.Models
     public struct Diagnostico
     {
         public string Texto;
-        public LabeledImage[] RutaImagen;
+        public LabeledImage[] Imagenes;
     }
 }
