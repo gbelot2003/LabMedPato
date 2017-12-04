@@ -5,6 +5,8 @@
     <WrapPanel Orientation="Vertical" Margin="10">
         <TextBlock Text="Número de informe:"/>
         <TextBox x:Name="txtSerie" Margin="0,10" Text="9865" TextAlignment="Center"/>
+        <TextBlock Text="Número de factura:"/>
+        <TextBox x:Name="txtfact" Margin="0,10" Text="5106725" TextAlignment="Center"/>
         <Button Content="Impirmir" x:Name="btnPrint" Click="btnPrint_Click"/>
     </WrapPanel>
 </Window>

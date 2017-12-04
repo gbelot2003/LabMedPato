@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Media;
+using static FormRender.Misc;
 using HTC = HTMLConverter.HtmlToXamlConverter;
 using XA = System.Windows.Markup.XamlReader;
 
@@ -23,10 +24,11 @@ namespace FormRender.Pages
         FirmaResponse firma2;
         Size pageSize;
         Size ctrlSize;
-        private const string imgPath = "http://192.168.2.101/img/histo/";
         public FormPage(InformeResponse data, Size pgSize)
         {
             InitializeComponent();
+
+            if (data.IsNull() || data.serial == 0) throw new ArgumentNullException();
 
             //Llenar header...
             txtPaciente.Text = data.facturas.nombre_completo_cliente;

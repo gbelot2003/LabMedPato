@@ -71,6 +71,7 @@
     <Compile Include="Utils\HtmlSchema.cs" />
     <Compile Include="Utils\HtmlTokenType.cs" />
     <Compile Include="Utils\HtmlToXamlConverter.cs" />
+    <Compile Include="Utils\Misc.cs" />
     <Compile Include="Utils\PatoClient.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

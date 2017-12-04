@@ -19,8 +19,20 @@ namespace FormRender
         }
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
-            fr = new FormPage(Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text)), PageSizes.Carta);
-            fr.Print();
+            try
+            {
+
+                fr = new FormPage(Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text)), PageSizes.Carta);
+                fr.Print();
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show("Serie o factura inválidos!","Error",MessageBoxButton.OK,MessageBoxImage.Exclamation);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().Name,MessageBoxButton.OK,MessageBoxImage.Error);
+            }
         }
     }
     public static class PageSizes
