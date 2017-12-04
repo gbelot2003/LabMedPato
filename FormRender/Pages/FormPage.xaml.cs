@@ -1,4 +1,6 @@
-﻿using FormRender.Models;
+﻿//#define RenderMulti
+
+using FormRender.Models;
 using MCART;
 using System;
 using System.Linq;
@@ -119,22 +121,22 @@ namespace FormRender.Pages
         public void Print(short dpi = 300)
         {
             PrintDialog dialog = new PrintDialog();
+            if (!dialog.ShowDialog() ?? true) return;
             Measure(ctrlSize);
             Arrange(new Rect(ctrlSize));
-            int c = 1;
-
-            var pgSze = new Size(pageSize.Width * dpi, pageSize.Height * dpi);
-
-
+#if RenderMulti
             if (fdpwContent.PageCount == 1)
             {
-                //Render compacto de una página
+                DoFirma(firma);
+                DoFirma(firma2);
                 txtPager.Text = $"Page 1/1 - Biopsia No. {txtBiop.Text}";
                 fdpwContent.UpdateLayout();
                 dialog.PrintVisual(this, $"Biopsia {txtBiop.Text}");
             }
             else
             {
+                int c = 1;
+                var pgSze = new Size(pageSize.Width * dpi, pageSize.Height * dpi);
 
                 //HACK: Las páginas deben renderizarse como bitmaps antes de imprimirse...
                 var document = new FixedDocument();
@@ -162,6 +164,21 @@ namespace FormRender.Pages
                 }
                 dialog.PrintDocument(document.DocumentPaginator, $"Biopsia {txtBiop.Text}");
             }
+#else
+            for (int c = 1; c <= fdpwContent.PageCount; c++)
+            {
+                //Render compacto de una página
+                if (c == fdpwContent.PageCount)
+                {
+                    DoFirma(firma);
+                    DoFirma(firma2);
+                }
+                txtPager.Text = $"Page {c}/{fdpwContent.PageCount} - Biopsia No. {txtBiop.Text}";
+                fdpwContent.UpdateLayout();
+                dialog.PrintVisual(this, $"Biopsia {txtBiop.Text}");
+                fdpwContent.NextPage();
+            }
+#endif
         }
     }
 }

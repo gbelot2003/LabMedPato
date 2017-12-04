@@ -2,8 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="400">
-    <Grid>
-        <Image x:Name="frame"/>
-        <Button Content="Impirmir" x:Name="btnPrint" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnPrint_Click"/>
-    </Grid>
+    <WrapPanel Orientation="Vertical" Margin="10">
+        <TextBlock Text="Número de informe:"/>
+        <TextBox x:Name="txtSerie" Margin="0,10" Text="9865" TextAlignment="Center"/>
+        <Button Content="Impirmir" x:Name="btnPrint" Click="btnPrint_Click"/>
+    </WrapPanel>
 </Window>

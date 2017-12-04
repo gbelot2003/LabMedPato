@@ -16,11 +16,10 @@ namespace FormRender
         public MainWindow()
         {
             InitializeComponent();
-
-            fr = new FormPage(Utils.PatoClient.GetResponse(9865), PageSizes.Carta);
         }
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
+            fr = new FormPage(Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text)), PageSizes.Carta);
             fr.Print();
         }
     }
