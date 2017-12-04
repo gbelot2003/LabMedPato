@@ -9,7 +9,7 @@ namespace FormRender.Utils
 {
     public static class PatoClient
     {
-        public static InformeResponse GetResponse(int id, int fact)
+        public static InformeResponse GetResponse(int id, int fact, string user, string password)
         {
             var request = WebRequest.Create(API);
             request.Method = "POST";
@@ -17,8 +17,8 @@ namespace FormRender.Utils
             StringBuilder pd = new StringBuilder();
             pd.Append($"serial={id}&");
             pd.Append($"factura={fact}&");
-            pd.Append($"username=gbelot&");
-            pd.Append($"password=Luna0102");
+            pd.Append($"username={user}&");
+            pd.Append($"password={password}");
             byte[] pb = Encoding.ASCII.GetBytes(pd.ToString());
             request.ContentType = "application/x-www-form-urlencoded";
             request.ContentLength = pb.Length;

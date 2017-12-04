@@ -13,25 +13,29 @@ namespace FormRender
     public partial class MainWindow : Window
     {
         FormPage fr;
+        string usr, pw;
         public MainWindow()
         {
             InitializeComponent();
+            MCART.Forms.PasswordDialog pwD = new MCART.Forms.PasswordDialog();
+            var r =pwD.GetPassword(null, null, true);
+            usr = r.Usr;
+            pw = r.Pwd;
         }
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-
-                fr = new FormPage(Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text)), PageSizes.Carta);
+                fr = new FormPage(Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text), usr, pw), PageSizes.Carta);
                 fr.Print();
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentNullException)
             {
-                MessageBox.Show("Serie o factura inválidos!","Error",MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                MessageBox.Show("Serie o factura inválidos!", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, ex.GetType().Name,MessageBoxButton.OK,MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

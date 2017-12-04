@@ -13,7 +13,11 @@
     </Page.Resources>
     <DockPanel Background="White" x:Name="RootContent">
         <Image Source="/FormRender;component/Assets/header.png" DockPanel.Dock="top"/>
-        <Image Source="/FormRender;component/Assets/footer.png" DockPanel.Dock="Bottom"/>
+        <Grid DockPanel.Dock="Bottom">
+            <Path Data="M0.49999999,0.49999998 L597.25582,0.52588479 561.18645,56.016914 9.9727352,55.931193 z" Fill="#FFBCBDC1" Margin="-13.672,-0.198,215.916,30.425" />
+            <Image Source="/FormRender;component/Assets/footer.png"/>
+
+        </Grid>
         <StackPanel>
             <TextBlock x:Name="txtTitle" Text="Reporte de Histopatología" FontSize="16" HorizontalAlignment="Center"/>
             <Grid Margin="35,0">
@@ -117,5 +121,6 @@
                 <Grid x:Name="grdFirmas"/>
             </DockPanel>
         </StackPanel>
+        <Path Data="M-10,1027" Height="1" Margin="0,0,0,35.342" Stretch="Fill" Stroke="Black" VerticalAlignment="Bottom" Width="1"/>
     </DockPanel>
 </Page>
