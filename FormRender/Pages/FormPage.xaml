@@ -74,6 +74,7 @@
                         <TextBlock Text="No. biopsia:" FontWeight="Bold"/>
                         <TextBlock x:Name="txtBiop"/>
                     </DockPanel>
+                    <TextBlock x:Name="txtFactNum" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Grid>
             <TextBlock Text="INFORME" FontSize="16" HorizontalAlignment="Center" FontWeight="Bold"/>
@@ -83,7 +84,7 @@
                 Margin="35,0"
                 TextOptions.TextFormattingMode="Display"                
                 FontFamily="{DynamicResource fntFmly}">
-                <FlowDocument PageHeight="700" ColumnWidth="99999">                    
+                <FlowDocument PageHeight="530" ColumnWidth="99999" x:Name="docRoot">
                     <Paragraph
                         FontFamily="{StaticResource fntFmly}"
                         FontSize="{StaticResource fntSze}" x:Name="par">
@@ -99,14 +100,22 @@
                                     <Setter Property="Margin" Value="0,0,0,5"/>
                                 </Style>
                                 <Style TargetType="StackPanel">
-                                    <!--<Setter Property="Background" Value="LightGray"/>-->
                                     <Setter Property="Margin" Value="0,10,-10,0"/>
                                 </Style>
                             </Floater.Resources>
-                        </Floater>                        
-                    </Paragraph>                    
+                        </Floater>
+                    </Paragraph>
                 </FlowDocument>
             </FlowDocumentPageViewer>
+            <DockPanel Margin="35,-25" Background="White">
+                <Separator DockPanel.Dock="Top" Foreground="{x:Null}" Background="{x:Null}" Margin="0,30"/>
+                <StackPanel>
+                    <TextBlock Text="Fecha de informe:"/>
+                    <TextBlock x:Name="txtFechaInf" FontWeight="Bold" Text="01/01/2999"/>
+                    <TextBlock x:Name="txtPager" Text="Page 1/1 - Biopsia No.1234-2999"/>
+                </StackPanel>
+                <Grid x:Name="grdFirmas"/>
+            </DockPanel>
         </StackPanel>
     </DockPanel>
 </Page>
