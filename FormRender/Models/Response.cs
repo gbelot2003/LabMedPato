@@ -61,7 +61,8 @@ namespace FormRender.Models
     }
     public class FacturaResponse: ResponseBase
     {
-        public int? num_factura, num_cedula;
+        public int? num_factura;
+        string num_cedula;
         public string
             nombre_completo_cliente,
             fecha_nacimiento,

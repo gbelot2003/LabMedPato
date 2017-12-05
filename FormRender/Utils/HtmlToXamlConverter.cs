@@ -11,12 +11,12 @@
 namespace HTMLConverter
 {
     using System;
-    using System.Xml;
-    using System.Diagnostics;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Windows; // DependencyProperty
     using System.Windows.Documents; // TextElement
+    using System.Xml;
 
     /// <summary>
     /// HtmlToXamlConverter is a static class that takes an HTML string
