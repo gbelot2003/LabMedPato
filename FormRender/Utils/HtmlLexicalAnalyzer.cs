@@ -9,9 +9,8 @@
 //---------------------------------------------------------------------------
 
 using System;
-using System.IO;
 using System.Diagnostics;
-using System.Collections;
+using System.IO;
 using System.Text;
 
 namespace HTMLConverter

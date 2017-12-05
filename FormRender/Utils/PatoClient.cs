@@ -13,7 +13,6 @@ namespace FormRender.Utils
         {
             var request = WebRequest.Create(API);
             request.Method = "POST";
-            //request.Credentials = new NetworkCredential("gbelot", "Luna0102");
             StringBuilder pd = new StringBuilder();
             pd.Append($"serial={id}&");
             pd.Append($"factura={fact}&");
