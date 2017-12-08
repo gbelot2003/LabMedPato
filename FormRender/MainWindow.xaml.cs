@@ -12,22 +12,29 @@ namespace FormRender
     /// </summary>
     public partial class MainWindow : Window
     {
-        FormPage fr;
         string usr, pw;
         public MainWindow()
         {
             InitializeComponent();
             MCART.Forms.PasswordDialog pwD = new MCART.Forms.PasswordDialog();
-            var r =pwD.GetPassword(null, null, true);
+            var r = pwD.GetPassword(null, null, true);
             usr = r.Usr;
             pw = r.Pwd;
         }
-        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        private async void btnPrint_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                fr = new FormPage(Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text), usr, pw), PageSizes.Carta);
-                fr.Print();
+                InformeResponse r;
+
+                //await TaskbarItemInfo.Run(() => { });
+                //r = Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text), usr, pw);
+
+
+                //(new FormPage(r, PageSizes.Carta)).Print();
+
+                r = Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text), usr, pw,"/eng");
+                (new FormPage(r, PageSizes.Carta, true)).Print();
             }
             catch (ArgumentNullException)
             {
