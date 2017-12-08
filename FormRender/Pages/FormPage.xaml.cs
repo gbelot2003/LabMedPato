@@ -4,6 +4,7 @@ using FormRender.Models;
 using MCART;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -25,6 +26,16 @@ namespace FormRender.Pages
         Size pageSize;
         Size ctrlSize;
         bool isEng;
+
+        private void GetImg(ImagenResponse j)
+        {
+            Image img = new Image { Source = UI.GetImageHttp(imgPath + j.image_url) };
+            TextBlock lbl = new TextBlock { Text = j.descripcion };
+            StackPanel pnl = new StackPanel { Children = { img, lbl } };
+            BlockUIContainer bl = new BlockUIContainer(pnl);
+            fltImages.Blocks.Add(bl);
+        }
+
 
         public FormPage(InformeResponse data, Size pgSize, bool isEnglish = false)
         {
@@ -88,14 +99,7 @@ namespace FormRender.Pages
                 par.SiblingBlocks.Add(oo.Blocks.FirstBlock);
             }
 
-            foreach (var j in data.images)
-            {
-                Image img = new Image { Source = UI.GetImageHttp(imgPath + j.image_url) };
-                TextBlock lbl = new TextBlock { Text = j.descripcion };
-                StackPanel pnl = new StackPanel { Children = { img, lbl } };
-                BlockUIContainer bl = new BlockUIContainer(pnl);
-                fltImages.Blocks.Add(bl);
-            }
+            foreach (var j in data.images) GetImg(j);
 
             //Ajustar tamaño de columna...
             switch (data.images.Length)

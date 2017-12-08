@@ -2,11 +2,15 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Utilidad de impresión de biopsias" Height="350" Width="400">
-    <WrapPanel Orientation="Vertical" Margin="10">
-        <TextBlock Text="Número de informe:"/>
-        <TextBox x:Name="txtSerie" Margin="0,10" TextAlignment="Center"/>
-        <TextBlock Text="Número de factura:"/>
-        <TextBox x:Name="txtfact" Margin="0,10" TextAlignment="Center"/>
-        <Button Content="Impirmir" x:Name="btnPrint" Click="btnPrint_Click"/>
+    <WrapPanel>
+        <WrapPanel Orientation="Vertical" Margin="10" x:Name="pnlControls">
+            <TextBlock Text="Número de informe:"/>
+            <TextBox x:Name="txtSerie" Margin="0,10" TextAlignment="Center"/>
+            <TextBlock Text="Número de factura:"/>
+            <TextBox x:Name="txtfact" Margin="0,10" TextAlignment="Center"/>
+            <Button Content="Impirmir" x:Name="btnPrint" Click="btnPrint_Click"/>
+            <Button Content="Impirmir - Inglés" x:Name="btnPrint2" Click="btnPrint2_Click" Margin="0,10,0,0"/>
+        </WrapPanel>
+        <TextBlock x:Name="lblStatus" Margin="10" TextWrapping="Wrap" VerticalAlignment="Center"/>
     </WrapPanel>
 </Window>

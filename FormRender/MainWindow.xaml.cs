@@ -3,6 +3,7 @@ using FormRender.Pages;
 using MCART;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace FormRender
@@ -21,20 +22,38 @@ namespace FormRender
             usr = r.Usr;
             pw = r.Pwd;
         }
+
+        private void btnPrint2_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                pnlControls.IsEnabled = false;
+                lblStatus.Text = "Obteniendo informe, por favor, espere...";
+                (new FormPage(Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text), usr, pw, "/eng"), PageSizes.Carta, true)).Print();
+                lblStatus.Text = null;
+                pnlControls.IsEnabled = true;
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show("Serie o factura inválidos!", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
         private async void btnPrint_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                InformeResponse r;
-
-                //await TaskbarItemInfo.Run(() => { });
-                //r = Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text), usr, pw);
-
-
-                //(new FormPage(r, PageSizes.Carta)).Print();
-
-                r = Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text), usr, pw,"/eng");
-                (new FormPage(r, PageSizes.Carta, true)).Print();
+                pnlControls.IsEnabled = false;
+                lblStatus.Text = "Obteniendo informe, por favor, espere...";
+                int serie = int.Parse(txtSerie.Text), fact = int.Parse(txtfact.Text);
+                UpdateLayout();
+                await Task.Run(() => { });
+                (new FormPage(Utils.PatoClient.GetResponse(serie, fact, usr, pw), PageSizes.Carta)).Print();
+                lblStatus.Text = null;
+                pnlControls.IsEnabled = true;
             }
             catch (ArgumentNullException)
             {
