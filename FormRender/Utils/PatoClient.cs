@@ -9,9 +9,9 @@ namespace FormRender.Utils
 {
     public static class PatoClient
     {
-        public static InformeResponse GetResponse(int id, int fact, string user, string password)
+        public static InformeResponse GetResponse(int id, int fact, string user, string password,string exRt = null)
         {
-            var request = WebRequest.Create(API);
+            var request = WebRequest.Create(API + exRt);
             request.Method = "POST";
             StringBuilder pd = new StringBuilder();
             pd.Append($"serial={id}&");

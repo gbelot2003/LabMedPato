@@ -96,7 +96,7 @@
         </Grid>
 
         <StackPanel>
-            <TextBlock x:Name="txtTitle" Text="Reporte de Histopatología" FontSize="16" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="lblTit" FontSize="16" HorizontalAlignment="Center"/>
             <Grid Margin="35,0">
                 <Grid.Resources>
                     <Style TargetType="TextBlock">
@@ -112,67 +112,67 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel>
                     <DockPanel>
-                        <TextBlock Text="Paciente:" FontWeight="Bold"/>
-                        <TextBlock x:Name="txtPaciente"/>
+                        <TextBlock x:Name="lblPac" FontWeight="Bold"/>
+                        <TextBlock x:Name="txtPaciente" FontWeight="Bold"/>
                     </DockPanel>
                     <DockPanel>
-                        <TextBlock Text="Médico:" FontWeight="Bold"/>
-                        <TextBlock x:Name="txtMedico"/>
+                        <TextBlock x:Name="lblMed" FontWeight="Bold"/>
+                        <TextBlock x:Name="txtMedico" FontWeight="Bold"/>
                     </DockPanel>
                     <DockPanel>
-                        <TextBlock Text="Dirección:" FontWeight="Bold"/>
+                        <TextBlock x:Name="lblAddr" FontWeight="Bold"/>
                         <TextBlock x:Name="txtDireccion"/>
                     </DockPanel>
                     <DockPanel>
-                        <TextBlock Text="Diag. Clínico:" FontWeight="Bold"/>
+                        <TextBlock x:Name="lblDiag" FontWeight="Bold"/>
                         <TextBlock x:Name="txtDiag"/>
                     </DockPanel>
                     <DockPanel>
-                        <TextBlock Text="Material Estudiado:" FontWeight="Bold"/>
+                        <TextBlock x:Name="lblMat" FontWeight="Bold"/>
                         <TextBlock x:Name="txtEstudiado"/>
                     </DockPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <WrapPanel>
                         <DockPanel>
-                            <TextBlock Text="Edad:" FontWeight="Bold"/>
-                            <TextBlock x:Name="txtEdad" Text="9"/>
+                            <TextBlock x:Name="lblAge" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtEdad" FontWeight="Bold"/>
                         </DockPanel>
                         <DockPanel>
-                            <TextBlock Text="Sexo:" FontWeight="Bold"/>
-                            <TextBlock x:Name="txtSexo" Text="M"/>
+                            <TextBlock x:Name="lblSex" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtSexo" FontWeight="Bold"/>
                         </DockPanel>
                     </WrapPanel>
                     <DockPanel>
-                        <TextBlock Text="Fecha:" FontWeight="Bold"/>
+                        <TextBlock x:Name="lblDte" FontWeight="Bold"/>
                         <TextBlock x:Name="txtFecha"/>
                     </DockPanel>
                     <DockPanel>
-                        <TextBlock Text="Recibido:" FontWeight="Bold"/>
+                        <TextBlock x:Name="lblRec" FontWeight="Bold"/>
                         <TextBlock x:Name="txtRecv"/>
                     </DockPanel>
                     <DockPanel>
-                        <TextBlock Text="No. biopsia:" FontWeight="Bold"/>
-                        <TextBlock x:Name="txtBiop"/>
+                        <TextBlock x:Name="lblNB" FontWeight="Bold"/>
+                        <TextBlock x:Name="txtBiop" FontWeight="Bold"/>
                     </DockPanel>
                     <TextBlock x:Name="txtFactNum" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Grid>
-            <TextBlock Text="INFORME" FontSize="16" HorizontalAlignment="Center" FontWeight="Bold"/>
+            <TextBlock x:Name="lblINF" FontSize="16" HorizontalAlignment="Center" FontWeight="Bold"/>
             <Separator Background="Black" Height="3"/>
             <FlowDocumentPageViewer
                 x:Name="fdpwContent"
                 Margin="35,0"
                 TextOptions.TextFormattingMode="Display"                
                 FontFamily="{DynamicResource fntFmly}">
-                <FlowDocument PageHeight="530" ColumnWidth="99999" x:Name="docRoot">
+                <FlowDocument PageHeight="570" ColumnWidth="99999" x:Name="docRoot">
                     <Paragraph
                         FontFamily="{StaticResource fntFmly}"
                         FontSize="{StaticResource fntSze}" x:Name="par">
                         <Floater HorizontalAlignment="Right" Width="250" x:Name="fltImages">
                             <Floater.Resources>
                                 <Style TargetType="Image">
-                                    <Setter Property="Margin" Value="10"/>
+                                    <Setter Property="Margin" Value="10,10,0,10"/>
                                 </Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -191,9 +191,9 @@
             <DockPanel Margin="35,-25" Background="White">
                 <Separator DockPanel.Dock="Top" Foreground="{x:Null}" Background="{x:Null}" Margin="0,30"/>
                 <StackPanel>
-                    <TextBlock Text="Fecha de informe:"/>
-                    <TextBlock x:Name="txtFechaInf" FontWeight="Bold" Text="01/01/2999"/>
-                    <TextBlock x:Name="txtPager" Text="Page 1/1 - Biopsia No.1234-2999"/>
+                    <TextBlock x:Name="lblIDt"/>
+                    <TextBlock x:Name="txtFechaInf" FontWeight="Bold"/>
+                    <TextBlock x:Name="txtPager"/>
                 </StackPanel>
                 <Grid x:Name="grdFirmas"/>
             </DockPanel>

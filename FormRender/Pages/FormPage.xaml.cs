@@ -4,6 +4,7 @@ using FormRender.Models;
 using MCART;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -24,9 +25,54 @@ namespace FormRender.Pages
         FirmaResponse firma2;
         Size pageSize;
         Size ctrlSize;
-        public FormPage(InformeResponse data, Size pgSize)
+        bool isEng;
+
+        private void GetImg(ImagenResponse j)
+        {
+            Image img = new Image { Source = UI.GetImageHttp(imgPath + j.image_url) };
+            TextBlock lbl = new TextBlock { Text = j.descripcion };
+            StackPanel pnl = new StackPanel { Children = { img, lbl } };
+            BlockUIContainer bl = new BlockUIContainer(pnl);
+            fltImages.Blocks.Add(bl);
+        }
+
+
+        public FormPage(InformeResponse data, Size pgSize, bool isEnglish = false)
         {
             InitializeComponent();
+            isEng = isEnglish;
+            if (isEnglish)
+            {
+                lblTit.Text = "Histopathology Report";
+                lblPac.Text = "Patient:";
+                lblMed.Text = "Medic:";
+                lblAddr.Text = "Address:";
+                lblDiag.Text = "Clinical Diag.:";
+                lblMat.Text = "Studied Material:";
+                lblAge.Text = "Age:";
+                lblSex.Text = "  Sex:";
+                lblDte.Text = "Date:";
+                lblRec.Text = "Recieved:";
+                lblNB.Text = "Biopsy N.:";
+                lblINF.Text = "REPORT";
+                lblIDt.Text = "Report date:";
+            }
+            else
+            {
+                lblTit.Text = "Reporte de Histopatología";
+                lblPac.Text = "Paciente:";
+                lblMed.Text = "Médico:";
+                lblAddr.Text = "Dirección:";
+                lblDiag.Text = "Diag. Clínico:";
+                lblMat.Text = "Material Estudiado:";
+                lblAge.Text = "Edad:";
+                lblSex.Text = "  Sexo:";
+                lblDte.Text = "Fecha:";
+                lblRec.Text = "Recibido:";
+                lblNB.Text = "No. biopsia:";
+                lblINF.Text = "INFORME";
+                lblIDt.Text = "Fecha de informe:";
+            }
 
             if (data.IsNull() || data.serial == 0) throw new ArgumentNullException();
 
@@ -53,14 +99,7 @@ namespace FormRender.Pages
                 par.SiblingBlocks.Add(oo.Blocks.FirstBlock);
             }
 
-            foreach (var j in data.images)
-            {
-                Image img = new Image { Source = UI.GetImageHttp(imgPath + j.image_url) };
-                TextBlock lbl = new TextBlock { Text = j.descripcion };
-                StackPanel pnl = new StackPanel { Children = { img, lbl } };
-                BlockUIContainer bl = new BlockUIContainer(pnl);
-                fltImages.Blocks.Add(bl);
-            }
+            foreach (var j in data.images) GetImg(j);
 
             //Ajustar tamaño de columna...
             switch (data.images.Length)
@@ -175,9 +214,9 @@ namespace FormRender.Pages
                     DoFirma(firma);
                     DoFirma(firma2);
                 }
-                txtPager.Text = $"Page {c}/{fdpwContent.PageCount} - Biopsia No. {txtBiop.Text}";
+                txtPager.Text = $"Page {c}/{fdpwContent.PageCount} - {lblNB.Text} {txtBiop.Text}";
                 fdpwContent.UpdateLayout();
-                dialog.PrintVisual(this, $"Biopsia {txtBiop.Text}");
+                dialog.PrintVisual(this, $"{lblNB.Text} {txtBiop.Text}");
                 fdpwContent.NextPage();
             }
 #endif
