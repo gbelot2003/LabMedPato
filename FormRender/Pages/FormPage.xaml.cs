@@ -91,14 +91,14 @@ namespace FormRender.Pages
             txtFechaInf.Text = data.fecha_informe.ToString();
 
             // HACK: Parsear y extraer texto desde html...
-            FlowDocument oo = XA.Parse(HTC.ConvertHtmlToXaml(data.informe, true)) as FlowDocument;
+            FlowDocument oo = XA.Parse(HTC.ConvertHtmlToXaml(data.informe.Replace("<div style=\"page-break-after:always\">", ""), true)) as FlowDocument;
             while (oo?.Blocks.Any() ?? false)
             {
                 oo.Blocks.FirstBlock.FontFamily = FindResource("fntFmly") as FontFamily;
                 oo.Blocks.FirstBlock.FontSize = (double)FindResource("fntSze");
                 par.SiblingBlocks.Add(oo.Blocks.FirstBlock);
             }
-
+            
             foreach (var j in data.images) GetImg(j);
 
             //Ajustar tamaño de columna...
@@ -107,7 +107,8 @@ namespace FormRender.Pages
                 case 0:
                     par.Inlines.Remove(fltImages);
                     break;
-                case 1: break;
+                case 1:
+                case 2: break;
                 default:
                     fltImages.Width = 150;
                     break;
@@ -119,6 +120,7 @@ namespace FormRender.Pages
             Measure(ctrlSize);
             Arrange(new Rect(ctrlSize));
             UpdateLayout();
+            docRoot.PageHeight = 720 - grdHead.ActualHeight;
         }
 
         private void DoFirma(FirmaResponse f)
@@ -163,8 +165,9 @@ namespace FormRender.Pages
         {
             PrintDialog dialog = new PrintDialog();
             if (!dialog.ShowDialog() ?? true) return;
-            Measure(ctrlSize);
-            Arrange(new Rect(ctrlSize));
+            var sz = new Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight);
+            Measure(sz);
+            Arrange(new Rect(sz)); //ctrlSize
 #if RenderMulti
             if (fdpwContent.PageCount == 1)
             {
