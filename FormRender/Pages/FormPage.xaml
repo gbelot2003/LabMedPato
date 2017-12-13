@@ -23,181 +23,185 @@
             <TranslateTransform/>
         </TransformGroup>
     </Page.Resources>
-    <DockPanel Background="White" x:Name="RootContent">
-        <Image Source="/FormRender;component/Assets/header.png" DockPanel.Dock="top"/>
+    <Grid Margin="10">
+        <DockPanel Background="White" x:Name="RootContent">
+            <Image Source="/FormRender;component/Assets/header.png" DockPanel.Dock="top"/>
 
-        <!--Grid de footer-->
-        <Grid DockPanel.Dock="Bottom" Height="86.658">
-            <Path Data="M0,0 L584,0 547,56 0,56 z" Fill="#FFBCBDC1"/>
-            <Rectangle Fill="#FF35C2D4" Height="26" VerticalAlignment="Bottom" Margin="0,0,13,0"/>
-            <TextBlock Text="info@laboratoriosmedicos.hn" Margin="601,11,0,0" FontSize="13.7"/>
-            <TextBlock Text="www.laboratoriosmedicos.hn" Margin="603,27,0,0" FontSize="13.7"/>
-            <TextBlock 
+            <!--Grid de footer-->
+            <Grid DockPanel.Dock="Bottom" Height="86.658" Margin="0,0,0,40">
+                <Path Data="M0,0 L584,0 547,56 0,56 z" Fill="#FFBCBDC1"/>
+                <Rectangle Fill="#FF35C2D4" Height="26" VerticalAlignment="Bottom" Margin="0,0,13,0"/>
+                <TextBlock Text="info@laboratoriosmedicos.hn" Margin="601,11,0,0" FontSize="13.7"/>
+                <TextBlock Text="www.laboratoriosmedicos.hn" Margin="603,27,0,0" FontSize="13.7"/>
+                <TextBlock 
                 Text="MICROBIOLOGÍA - QUÍMICA - PATOLOGÍA - HEMATOLOGÍA - BIOLOGÍA MOLECULAR" 
                 Margin="44,66.5,0,0" Foreground="white"
                 FontSize="13" FontFamily="Cambria" RenderTransformOrigin="0.5,0.5">
-                <TextBlock.LayoutTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleX="1.475"/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </TextBlock.LayoutTransform>
-            </TextBlock>
-            <Grid Margin="0,12,230,38.7" x:Name="grdftr">
-                <Grid.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="TextWrapping" Value="Wrap"/>
-                        <Setter Property="FontSize" Value="7.5"/>
-                        <Setter Property="Margin" Value="4,3,0,0"/>
-                        <Setter Property="LayoutTransform" Value="{StaticResource footerAdjust}"/>
-                    </Style>
-                    <Style TargetType="Separator">
-                        <Setter Property="HorizontalAlignment" Value="Right"/>
-                        <Setter Property="Background" Value="Black"/>
-                        <Setter Property="Width" Value="41"/>
-                        <Setter Property="LayoutTransform" Value="{StaticResource separators}"/>
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="126*"/>
-                    <ColumnDefinition Width="61*"/>
-                    <ColumnDefinition Width="96*"/>
-                    <ColumnDefinition Width="85*"/>
-                    <ColumnDefinition Width="105*"/>
-                    <ColumnDefinition Width="97*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Laboratorio Principal Colonia Ruben Darío, Calle Arturo López Rodezno #2040  2239-1960  /  Fax: 2235-7748" Margin="4,3,0,0.3"/>
-                <Separator Margin="0,2,0,2.3"/>
-                <TextBlock Grid.Column="1" Text="Local City Mall Lobby Sótano 2 2263-3190" Margin="4,3,0,0.3"/>
-                <Separator Grid.Column="1" Margin="0,2,0,2.3"/>
-                <TextBlock Grid.Column="2" Text="Local Tepeyac             Colonia Tepeyac, Ave. Luis Bográn 2239-4255" Margin="4,3,0,0.3" />
-                <Separator Grid.Column="2" Margin="0,2,0,2.3"/>
-                <TextBlock Grid.Column="3" Margin="1,3,1,3.3" FontSize="7" Text="Local CC Centro América Blvd. Miraflores,Local 15:A 2232-0371"/>
-                <Separator Grid.Column="3" Margin="0,2,0,2.3"/>
-                <TextBlock 
-                    Grid.Column="4" 
-                    Margin="6,2,6,2.3"
-                    FontSize="7.9"
-                    Text="Local Sur: Res. Aeropuerto, Ave San Fernando de Catamarca, #5408    2234-2303">
                     <TextBlock.LayoutTransform>
                         <TransformGroup>
-                            <ScaleTransform ScaleY="0.8"/>
+                            <ScaleTransform ScaleX="1.475"/>
                             <SkewTransform/>
                             <RotateTransform/>
                             <TranslateTransform/>
                         </TransformGroup>
                     </TextBlock.LayoutTransform>
                 </TextBlock>
-                <Separator Grid.Column="4" Margin="0,2,0,2.3"/>
-                <TextBlock Grid.Column="5" Margin="2,2,2,2.3" Text="Local Finlay, Barrio Finlay Ave. Cristobal Colón 2237-9726"/>
+                <Grid Margin="0,12,230,38.7" x:Name="grdftr">
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="FontSize" Value="7.5"/>
+                            <Setter Property="Margin" Value="4,3,0,0"/>
+                            <Setter Property="LayoutTransform" Value="{StaticResource footerAdjust}"/>
+                        </Style>
+                        <Style TargetType="Separator">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                            <Setter Property="Background" Value="Black"/>
+                            <Setter Property="Width" Value="41"/>
+                            <Setter Property="LayoutTransform" Value="{StaticResource separators}"/>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="126*"/>
+                        <ColumnDefinition Width="61*"/>
+                        <ColumnDefinition Width="96*"/>
+                        <ColumnDefinition Width="85*"/>
+                        <ColumnDefinition Width="105*"/>
+                        <ColumnDefinition Width="97*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Laboratorio Principal Colonia Ruben Darío, Calle Arturo López Rodezno #2040  2239-1960  /  Fax: 2235-7748" Margin="4,3,0,0.3"/>
+                    <Separator Margin="0,2,0,2.3"/>
+                    <TextBlock Grid.Column="1" Text="Local City Mall Lobby Sótano 2 2263-3190" Margin="4,3,0,0.3"/>
+                    <Separator Grid.Column="1" Margin="0,2,0,2.3"/>
+                    <TextBlock Grid.Column="2" Text="Local Tepeyac             Colonia Tepeyac, Ave. Luis Bográn 2239-4255" Margin="4,3,0,0.3" />
+                    <Separator Grid.Column="2" Margin="0,2,0,2.3"/>
+                    <TextBlock Grid.Column="3" Margin="1,3,1,3.3" FontSize="7" Text="Local CC Centro América Blvd. Miraflores,Local 15:A 2232-0371"/>
+                    <Separator Grid.Column="3" Margin="0,2,0,2.3"/>
+                    <TextBlock 
+                    Grid.Column="4" 
+                    Margin="6,2,6,2.3"
+                    FontSize="7.9"
+                    Text="Local Sur: Res. Aeropuerto, Ave San Fernando de Catamarca, #5408    2234-2303">
+                        <TextBlock.LayoutTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="0.8"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                    <Separator Grid.Column="4" Margin="0,2,0,2.3"/>
+                    <TextBlock Grid.Column="5" Margin="2,2,2,2.3" Text="Local Finlay, Barrio Finlay Ave. Cristobal Colón 2237-9726"/>
+                </Grid>
             </Grid>
-        </Grid>
 
-        <StackPanel>
-            <TextBlock x:Name="lblTit" FontSize="16" HorizontalAlignment="Center"/>
-            <Grid Margin="35,0">
-                <Grid.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Margin" Value="5,5,0,0"/>
-                        <Setter Property="TextWrapping" Value="Wrap"/>
-                        <Setter Property="FontFamily" Value="{StaticResource fntFmly}"/>
-                        <Setter Property="FontSize" Value="{StaticResource fntSze}"/>
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel>
-                    <DockPanel>
-                        <TextBlock x:Name="lblPac" FontWeight="Bold"/>
-                        <TextBlock x:Name="txtPaciente" FontWeight="Bold"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock x:Name="lblMed" FontWeight="Bold"/>
-                        <TextBlock x:Name="txtMedico" FontWeight="Bold"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock x:Name="lblAddr" FontWeight="Bold"/>
-                        <TextBlock x:Name="txtDireccion"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock x:Name="lblDiag" FontWeight="Bold"/>
-                        <TextBlock x:Name="txtDiag"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock x:Name="lblMat" FontWeight="Bold"/>
-                        <TextBlock x:Name="txtEstudiado"/>
-                    </DockPanel>
-                </StackPanel>
-                <StackPanel Grid.Column="1">
-                    <WrapPanel>
+            <StackPanel>
+                <TextBlock x:Name="lblTit" FontSize="16" HorizontalAlignment="Center"/>
+                <Grid Margin="35,0" x:Name="grdHead">
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Margin" Value="5,5,0,0"/>
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="FontFamily" Value="{StaticResource fntFmly}"/>
+                            <Setter Property="FontSize" Value="{StaticResource fntSze}"/>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
                         <DockPanel>
-                            <TextBlock x:Name="lblAge" FontWeight="Bold"/>
-                            <TextBlock x:Name="txtEdad" FontWeight="Bold"/>
+                            <TextBlock x:Name="lblPac" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtPaciente" FontWeight="Bold"/>
                         </DockPanel>
                         <DockPanel>
-                            <TextBlock x:Name="lblSex" FontWeight="Bold"/>
-                            <TextBlock x:Name="txtSexo" FontWeight="Bold"/>
+                            <TextBlock x:Name="lblMed" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtMedico" FontWeight="Bold"/>
                         </DockPanel>
-                    </WrapPanel>
-                    <DockPanel>
-                        <TextBlock x:Name="lblDte" FontWeight="Bold"/>
-                        <TextBlock x:Name="txtFecha"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock x:Name="lblRec" FontWeight="Bold"/>
-                        <TextBlock x:Name="txtRecv"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock x:Name="lblNB" FontWeight="Bold"/>
-                        <TextBlock x:Name="txtBiop" FontWeight="Bold"/>
-                    </DockPanel>
-                    <TextBlock x:Name="txtFactNum" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Grid>
-            <TextBlock x:Name="lblINF" FontSize="16" HorizontalAlignment="Center" FontWeight="Bold"/>
-            <Separator Background="Black" Height="3"/>
-            <FlowDocumentPageViewer
-                x:Name="fdpwContent"
-                Margin="35,0"
-                TextOptions.TextFormattingMode="Display"                
-                FontFamily="{DynamicResource fntFmly}">
-                <FlowDocument PageHeight="570" ColumnWidth="99999" x:Name="docRoot">
-                    <Paragraph
+                        <DockPanel>
+                            <TextBlock x:Name="lblAddr" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtDireccion"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <TextBlock x:Name="lblDiag" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtDiag"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <TextBlock x:Name="lblMat" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtEstudiado"/>
+                        </DockPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <WrapPanel>
+                            <DockPanel>
+                                <TextBlock x:Name="lblAge" FontWeight="Bold"/>
+                                <TextBlock x:Name="txtEdad" FontWeight="Bold"/>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock x:Name="lblSex" FontWeight="Bold"/>
+                                <TextBlock x:Name="txtSexo" FontWeight="Bold"/>
+                            </DockPanel>
+                        </WrapPanel>
+                        <DockPanel>
+                            <TextBlock x:Name="lblDte" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtFecha"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <TextBlock x:Name="lblRec" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtRecv"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <TextBlock x:Name="lblNB" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtBiop" FontWeight="Bold"/>
+                        </DockPanel>
+                        <TextBlock x:Name="txtFactNum" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+                <TextBlock x:Name="lblINF" FontSize="16" HorizontalAlignment="Center" FontWeight="Bold"/>
+                <Separator Background="Black" Height="3"/>
+                <FlowDocumentPageViewer
+                    x:Name="fdpwContent"
+                    Margin="20,-30"
+                    TextOptions.TextFormattingMode="Display"                
+                    FontFamily="{DynamicResource fntFmly}">
+                <FlowDocument ColumnWidth="99999" x:Name="docRoot">
+                        <Paragraph
                         FontFamily="{StaticResource fntFmly}"
                         FontSize="{StaticResource fntSze}" x:Name="par">
-                        <Floater HorizontalAlignment="Right" Width="250" x:Name="fltImages">
-                            <Floater.Resources>
-                                <Style TargetType="Image">
-                                    <Setter Property="Margin" Value="10,10,0,10"/>
-                                </Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    <Setter Property="FontStyle" Value="Italic"/>
-                                    <Setter Property="TextWrapping" Value="Wrap"/>
-                                    <Setter Property="Margin" Value="0,0,0,5"/>
-                                </Style>
-                                <Style TargetType="StackPanel">
-                                    <Setter Property="Margin" Value="0,10,-10,0"/>
-                                </Style>
-                            </Floater.Resources>
-                        </Floater>
-                    </Paragraph>
-                </FlowDocument>
-            </FlowDocumentPageViewer>
-            <DockPanel Margin="35,-25" Background="White">
-                <Separator DockPanel.Dock="Top" Foreground="{x:Null}" Background="{x:Null}" Margin="0,30"/>
-                <StackPanel>
-                    <TextBlock x:Name="lblIDt"/>
-                    <TextBlock x:Name="txtFechaInf" FontWeight="Bold"/>
-                    <TextBlock x:Name="txtPager"/>
-                </StackPanel>
-                <Grid x:Name="grdFirmas"/>
-            </DockPanel>
-        </StackPanel>
-        <Path Data="M-10,1027" Height="1" Margin="0,0,0,35.342" Stretch="Fill" Stroke="Black" VerticalAlignment="Bottom" Width="1"/>
-    </DockPanel>
+                            <Floater HorizontalAlignment="Right" Width="250" x:Name="fltImages">
+                                <Floater.Resources>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Margin" Value="10,10,0,10"/>
+                                    </Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="FontStyle" Value="Italic"/>
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                        <Setter Property="Margin" Value="0,0,0,5"/>
+                                    </Style>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="Margin" Value="0,10,-10,0"/>
+                                    </Style>
+                                </Floater.Resources>
+                            </Floater>
+                        </Paragraph>
+                    </FlowDocument>
+                </FlowDocumentPageViewer>
+                <Grid Margin="20,-25" Background="White">
+                    <DockPanel Margin="20,0">
+                        <Separator DockPanel.Dock="Top" Foreground="{x:Null}" Background="{x:Null}" Margin="0,20"/>
+                        <StackPanel>
+                            <TextBlock x:Name="lblIDt"/>
+                            <TextBlock x:Name="txtFechaInf" FontWeight="Bold"/>
+                            <TextBlock x:Name="txtPager"/>
+                        </StackPanel>
+                        <Grid x:Name="grdFirmas"/>
+                    </DockPanel>
+                </Grid>
+            </StackPanel>
+            <Path Data="M-10,1027" Height="1" Margin="0,0,0,35.342" Stretch="Fill" Stroke="Black" VerticalAlignment="Bottom" Width="1"/>
+        </DockPanel>
+    </Grid>
 </Page>

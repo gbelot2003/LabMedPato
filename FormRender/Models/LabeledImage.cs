@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows.Media.Imaging;
 
 namespace FormRender.Models
 {
     public struct LabeledImage
     {
-        public string RutaImagen;
-        public string Titulo;
+        public BitmapImage imagen;
+        public string titulo;
     }
 }
