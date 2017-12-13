@@ -3,6 +3,7 @@
 using FormRender.Models;
 using MCART;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,53 +26,55 @@ namespace FormRender.Pages
         FirmaResponse firma2;
         Size pageSize;
         Size ctrlSize;
-        bool isEng;
+        Language lang;
 
-        private void GetImg(ImagenResponse j)
+        private void GetImg(LabeledImage j)
         {
-            Image img = new Image { Source = UI.GetImageHttp(imgPath + j.image_url) };
-            TextBlock lbl = new TextBlock { Text = j.descripcion };
+            Image img = new Image { Source = j.imagen };
+            TextBlock lbl = new TextBlock { Text = j.titulo };
             StackPanel pnl = new StackPanel { Children = { img, lbl } };
             BlockUIContainer bl = new BlockUIContainer(pnl);
             fltImages.Blocks.Add(bl);
         }
 
-
-        public FormPage(InformeResponse data, Size pgSize, bool isEnglish = false)
+        internal FormPage(InformeResponse data, IEnumerable<LabeledImage> imgs, Size pgSize, Language language)
         {
             InitializeComponent();
-            isEng = isEnglish;
-            if (isEnglish)
+            lang = language;
+            switch (lang)
             {
-                lblTit.Text = "Histopathology Report";
-                lblPac.Text = "Patient:";
-                lblMed.Text = "Medic:";
-                lblAddr.Text = "Address:";
-                lblDiag.Text = "Clinical Diag.:";
-                lblMat.Text = "Studied Material:";
-                lblAge.Text = "Age:";
-                lblSex.Text = "  Sex:";
-                lblDte.Text = "Date:";
-                lblRec.Text = "Recieved:";
-                lblNB.Text = "Biopsy N.:";
-                lblINF.Text = "REPORT";
-                lblIDt.Text = "Report date:";
-            }
-            else
-            {
-                lblTit.Text = "Reporte de Histopatología";
-                lblPac.Text = "Paciente:";
-                lblMed.Text = "Médico:";
-                lblAddr.Text = "Dirección:";
-                lblDiag.Text = "Diag. Clínico:";
-                lblMat.Text = "Material Estudiado:";
-                lblAge.Text = "Edad:";
-                lblSex.Text = "  Sexo:";
-                lblDte.Text = "Fecha:";
-                lblRec.Text = "Recibido:";
-                lblNB.Text = "No. biopsia:";
-                lblINF.Text = "INFORME";
-                lblIDt.Text = "Fecha de informe:";
+                case FormRender.Language.Spanish:
+                    lblTit.Text = "Reporte de Histopatología";
+                    lblPac.Text = "Paciente:";
+                    lblMed.Text = "Médico:";
+                    lblAddr.Text = "Dirección:";
+                    lblDiag.Text = "Diag. Clínico:";
+                    lblMat.Text = "Material Estudiado:";
+                    lblAge.Text = "Edad:";
+                    lblSex.Text = "  Sexo:";
+                    lblDte.Text = "Fecha:";
+                    lblRec.Text = "Recibido:";
+                    lblNB.Text = "No. biopsia:";
+                    lblINF.Text = "INFORME";
+                    lblIDt.Text = "Fecha de informe:";
+                    break;
+                case FormRender.Language.English:
+                    lblTit.Text = "Histopathology Report";
+                    lblPac.Text = "Patient:";
+                    lblMed.Text = "Medic:";
+                    lblAddr.Text = "Address:";
+                    lblDiag.Text = "Clinical Diag.:";
+                    lblMat.Text = "Studied Material:";
+                    lblAge.Text = "Age:";
+                    lblSex.Text = "  Sex:";
+                    lblDte.Text = "Date:";
+                    lblRec.Text = "Recieved:";
+                    lblNB.Text = "Biopsy N.:";
+                    lblINF.Text = "REPORT";
+                    lblIDt.Text = "Report date:";
+                    break;
+                default:
+                    break;
             }
 
             if (data.IsNull() || data.serial == 0) throw new ArgumentNullException();
@@ -99,7 +102,7 @@ namespace FormRender.Pages
                 par.SiblingBlocks.Add(oo.Blocks.FirstBlock);
             }
             
-            foreach (var j in data.images) GetImg(j);
+            foreach (var j in imgs) GetImg(j);
 
             //Ajustar tamaño de columna...
             switch (data.images.Length)
