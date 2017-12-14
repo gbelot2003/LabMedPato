@@ -5,13 +5,10 @@ using MCART;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Markup;
 using System.Windows.Media;
-using static FormRender.Misc;
 using HTC = HTMLConverter.HtmlToXamlConverter;
 using XA = System.Windows.Markup.XamlReader;
 
@@ -87,21 +84,33 @@ namespace FormRender.Pages
             txtEstudiado.Text = data.muestra;
             txtEdad.Text = data.facturas.edad;
             txtSexo.Text = data.facturas.sexo;
-            txtFecha.Text = data.fecha_biopcia.ToString();
-            txtRecv.Text = data.fecha_muestra.ToString();
+            txtFecha.Text = data.fecha_biopcia.HasValue ? data.fecha_biopcia.Value.ToString("dd/MM/yyyy") : string.Empty;
+            txtRecv.Text = data.fecha_muestra.HasValue ? data.fecha_muestra.Value.ToString("dd/MM/yyyy") : string.Empty;
             txtBiop.Text = $"{data.serial ?? 0} - {DateTime.Now.Year}";
             txtFactNum.Text = $"C.I. {data.factura_id}";
-            txtFechaInf.Text = data.fecha_informe.ToString();
+            txtFechaInf.Text = data.fecha_informe.HasValue ? data.fecha_informe.Value.ToString("dd/MM/yyyy") : string.Empty;
 
             // HACK: Parsear y extraer texto desde html...
-            FlowDocument oo = XA.Parse(HTC.ConvertHtmlToXaml(data.informe.Replace("<div style=\"page-break-after:always\">", ""), true)) as FlowDocument;
+            FlowDocument oo = XA.Parse(HTC.ConvertHtmlToXaml(
+                data.informe
+
+                /*
+                 * Filtros de reemplazo
+                 * ====================
+                 * Solucionan los problemas de formateo con los q viene el
+                 * texto desde el servidor. (la gente a veces no sabe redactar)
+                 */
+                .Replace("<div style=\"page-break-after:always\">", "") // remoción de <div /> separador innecesario
+                .Replace("<br />\r\n&nbsp;<br />\r\n", "<br /><br />") // Sust. de nuevo párrafo (sucio a limpio)
+
+                , true)) as FlowDocument;
             while (oo?.Blocks.Any() ?? false)
             {
                 oo.Blocks.FirstBlock.FontFamily = FindResource("fntFmly") as FontFamily;
                 oo.Blocks.FirstBlock.FontSize = (double)FindResource("fntSze");
                 par.SiblingBlocks.Add(oo.Blocks.FirstBlock);
             }
-            
+
             foreach (var j in imgs) GetImg(j);
 
             //Ajustar tamaño de columna...
