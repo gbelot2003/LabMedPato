@@ -20,6 +20,7 @@ namespace FormRender
             internal Language language;
         }
 
+        bool queueClose = false;
         string usr, pw;
         public MainWindow()
         {
@@ -31,14 +32,26 @@ namespace FormRender
             });
             btnPrint.Tag = new ApiInfo { ruta = null, language = FormRender.Language.Spanish };
             btnPrint2.Tag = new ApiInfo { ruta = "/eng", language = FormRender.Language.English };
-
-            MCART.Forms.PasswordDialog pwD = new MCART.Forms.PasswordDialog();
-            var r = pwD.GetPassword(null, null, true);
-            if (r.Result == MessageBoxResult.OK)
+            try
             {
-                usr = r.Usr;
-                pw = r.Pwd.ReadString();
+                do
+                {
+                    var pwD = new MCART.Forms.PasswordDialog();
+                    var r = pwD.GetPassword(null, null, true);
+                    if (r.Result == MessageBoxResult.OK)
+                    {
+                        usr = r.Usr;
+                        pw = r.Pwd.ReadString();
+                    }
+                    else queueClose = true;
+                } while (!Utils.PatoClient.Login(usr, pw) && !queueClose);
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+                queueClose = true;
+            }
+            Loaded += (sender, e) => { if (queueClose) Close(); };
         }
 
         private async void BtnPrint_Click(object sender, RoutedEventArgs e)
@@ -66,7 +79,23 @@ namespace FormRender
                 }
                 pgbStatus.Value = 100;
                 lblStatus.Text = "Generando informe...";
-                (new FormPage(resp, imgs, PageSizes.Carta, btn.language)).Print();
+                resp.informe = resp.informe
+                    /*
+                     * Filtros de reemplazo
+                     * ====================
+                     * Solucionan los problemas de formateo con los q viene el
+                     * texto desde el servidor. (la gente a veces no sabe redactar)
+                     */
+                    .Replace("<br />", "<br/>")                             // Preproceso de breaks
+                    .Replace("<div style=\"page-break-after:always\">", "") // remoción de <div /> separador innecesario
+                    .Replace("<br/>\r\n&nbsp;<br/>\r\n", "<br/><br/>")    // Sust. de nuevo párrafo (sucio a limpio)
+                    .Replace("\r\n", "<br/>")                               // Sust. de caracteres \r\n a <br/>
+                    .Replace("\n", "<br/>")                                 // Sust. de caracter \n a <br/>
+                    .Replace("<br/><br/><br/><br/>", "<br/><br/>")
+                    .Replace("</strong><br/><br/>", "</strong><br />");
+
+                (new PreviewWindow()).ShowInforme(new FormPage(resp, imgs, PageSizes.Carta, btn.language));
+                //(new FormPage(resp, imgs, PageSizes.Carta, btn.language)).Print();
             }
             catch (ArgumentNullException)
             {
@@ -74,7 +103,7 @@ namespace FormRender
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}", ex.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {

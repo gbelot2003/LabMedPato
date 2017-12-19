@@ -30,8 +30,8 @@
                 <TextBox x:Name="txtfact"/>
             </WrapPanel>
             <WrapPanel>
-                <Button x:Name="btnPrint" Click="BtnPrint_Click" Content="Impirmir"/>
-                <Button x:Name="btnPrint2" Click="BtnPrint_Click" Content="Impirmir - Inglés"/>
+                <Button x:Name="btnPrint" Click="BtnPrint_Click" Content="Generar"/>
+                <Button x:Name="btnPrint2" Click="BtnPrint_Click" Content="Generar - Inglés"/>
             </WrapPanel>
         </WrapPanel>
         <StackPanel x:Name="stckStatus">

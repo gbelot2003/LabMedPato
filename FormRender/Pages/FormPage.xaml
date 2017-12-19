@@ -46,7 +46,7 @@
                         </TransformGroup>
                     </TextBlock.LayoutTransform>
                 </TextBlock>
-                <Grid Margin="0,12,230,38.7" x:Name="grdftr">
+                <Grid Margin="0,8,230,38.7" x:Name="grdftr">
                     <Grid.Resources>
                         <Style TargetType="TextBlock">
                             <Setter Property="TextWrapping" Value="Wrap"/>
@@ -98,7 +98,7 @@
 
             <StackPanel>
                 <TextBlock x:Name="lblTit" FontSize="16" HorizontalAlignment="Center"/>
-                <Grid Margin="35,0" x:Name="grdHead">
+                <Grid Margin="34,0" x:Name="grdHead">
                     <Grid.Resources>
                         <Style TargetType="TextBlock">
                             <Setter Property="Margin" Value="5,5,0,0"/>
@@ -163,14 +163,14 @@
                 <Separator Background="Black" Height="3"/>
                 <FlowDocumentPageViewer
                     x:Name="fdpwContent"
-                    Margin="20,-30"
+                    Margin="20,-15"
                     TextOptions.TextFormattingMode="Display"                
                     FontFamily="{DynamicResource fntFmly}">
-                <FlowDocument ColumnWidth="99999" x:Name="docRoot">
+                <FlowDocument ColumnWidth="99999" PageHeight="690" x:Name="docRoot">
                         <Paragraph
                         FontFamily="{StaticResource fntFmly}"
                         FontSize="{StaticResource fntSze}" x:Name="par">
-                            <Floater HorizontalAlignment="Right" Width="250" x:Name="fltImages">
+                            <Floater HorizontalAlignment="Right" Width="230" x:Name="fltImages">
                                 <Floater.Resources>
                                     <Style TargetType="Image">
                                         <Setter Property="Margin" Value="10,10,0,10"/>
@@ -190,7 +190,7 @@
                     </FlowDocument>
                 </FlowDocumentPageViewer>
                 <Grid Margin="20,-25" Background="White">
-                    <DockPanel Margin="20,0">
+                    <DockPanel Margin="17,0">
                         <Separator DockPanel.Dock="Top" Foreground="{x:Null}" Background="{x:Null}" Margin="0,20"/>
                         <StackPanel>
                             <TextBlock x:Name="lblIDt"/>

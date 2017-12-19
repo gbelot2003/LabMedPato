@@ -24,12 +24,18 @@ namespace FormRender.Pages
         Size pageSize;
         Size ctrlSize;
         Language lang;
+        string lblPg;
+
+        double imgAdjust=0;
+
+        public int PgCount => fdpwContent.PageCount;
 
         private void GetImg(LabeledImage j)
         {
             Image img = new Image { Source = j.imagen };
             TextBlock lbl = new TextBlock { Text = j.titulo };
             StackPanel pnl = new StackPanel { Children = { img, lbl } };
+            imgAdjust += (230 * j.imagen.Width / j.imagen.Height) + 20;
             BlockUIContainer bl = new BlockUIContainer(pnl);
             fltImages.Blocks.Add(bl);
         }
@@ -54,6 +60,7 @@ namespace FormRender.Pages
                     lblNB.Text = "No. biopsia:";
                     lblINF.Text = "INFORME";
                     lblIDt.Text = "Fecha de informe:";
+                    lblPg = "Página";
                     break;
                 case FormRender.Language.English:
                     lblTit.Text = "Histopathology Report";
@@ -69,6 +76,7 @@ namespace FormRender.Pages
                     lblNB.Text = "Biopsy N.:";
                     lblINF.Text = "REPORT";
                     lblIDt.Text = "Report date:";
+                    lblPg = "Page";
                     break;
                 default:
                     break;
@@ -90,20 +98,8 @@ namespace FormRender.Pages
             txtFactNum.Text = $"C.I. {data.factura_id}";
             txtFechaInf.Text = data.fecha_informe.HasValue ? data.fecha_informe.Value.ToString("dd/MM/yyyy") : string.Empty;
 
-            // HACK: Parsear y extraer texto desde html...
-            FlowDocument oo = XA.Parse(HTC.ConvertHtmlToXaml(
-                data.informe
-
-                /*
-                 * Filtros de reemplazo
-                 * ====================
-                 * Solucionan los problemas de formateo con los q viene el
-                 * texto desde el servidor. (la gente a veces no sabe redactar)
-                 */
-                .Replace("<div style=\"page-break-after:always\">", "") // remoción de <div /> separador innecesario
-                .Replace("<br />\r\n&nbsp;<br />\r\n", "<br /><br />") // Sust. de nuevo párrafo (sucio a limpio)
-
-                , true)) as FlowDocument;
+            // Parsear y extraer texto desde html...
+            FlowDocument oo = XA.Parse(HTC.ConvertHtmlToXaml(data.informe, true)) as FlowDocument;
             while (oo?.Blocks.Any() ?? false)
             {
                 oo.Blocks.FirstBlock.FontFamily = FindResource("fntFmly") as FontFamily;
@@ -112,19 +108,24 @@ namespace FormRender.Pages
             }
 
             foreach (var j in imgs) GetImg(j);
-
+            imgAdjust /= 0.80; //
             //Ajustar tamaño de columna...
             switch (data.images.Length)
             {
                 case 0:
                     par.Inlines.Remove(fltImages);
                     break;
-                case 1:
-                case 2: break;
+                case 1: break;
+                case 2:
+                    if (imgAdjust > 690)
+                    {
+                        fltImages.Width = 230 * 690 / imgAdjust;
+                    }
+                    break;
                 default:
                     fltImages.Width = 150;
                     break;
-            }
+            }            
             firma = data.firma;
             firma2 = data.firma2;
             pageSize = pgSize;
@@ -132,7 +133,7 @@ namespace FormRender.Pages
             Measure(ctrlSize);
             Arrange(new Rect(ctrlSize));
             UpdateLayout();
-            docRoot.PageHeight = 720 - grdHead.ActualHeight;
+            docRoot.PageHeight = 690 - grdHead.ActualHeight;
         }
 
         private void DoFirma(FirmaResponse f)
@@ -173,6 +174,11 @@ namespace FormRender.Pages
             }
         }
 
+        public void NextPage() => fdpwContent.NextPage();
+        public void PrevPage() => fdpwContent.PreviousPage();
+        public bool CanNext => fdpwContent.CanGoToNextPage;
+        public bool CanPrev => fdpwContent.CanGoToPreviousPage;
+
         public void Print(short dpi = 300)
         {
             PrintDialog dialog = new PrintDialog();
@@ -180,6 +186,7 @@ namespace FormRender.Pages
             var sz = new Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight);
             Measure(sz);
             Arrange(new Rect(sz)); //ctrlSize
+            fdpwContent.GoToPage(1);
 #if RenderMulti
             if (fdpwContent.PageCount == 1)
             {
@@ -229,7 +236,7 @@ namespace FormRender.Pages
                     DoFirma(firma);
                     DoFirma(firma2);
                 }
-                txtPager.Text = $"Page {c}/{fdpwContent.PageCount} - {lblNB.Text} {txtBiop.Text}";
+                txtPager.Text = $"{lblPg} {c}/{fdpwContent.PageCount} - {lblNB.Text} {txtBiop.Text}";
                 fdpwContent.UpdateLayout();
                 dialog.PrintVisual(this, $"{lblNB.Text} {txtBiop.Text}");
                 fdpwContent.NextPage();
