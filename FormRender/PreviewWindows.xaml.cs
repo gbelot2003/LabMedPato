@@ -41,6 +41,9 @@ namespace FormRender
                 currpg--;
                 lblCounter.Text = $"Pág. {currpg}/{page.PgCount}";
                 page.PrevPage();
+                page.shPager(currpg);
+                if (page.CanNext) page.UndoFirma();
+
             }
         }
 
@@ -51,6 +54,8 @@ namespace FormRender
                 currpg++;
                 lblCounter.Text = $"Pág. {currpg}/{page.PgCount}";
                 page.NextPage();
+                page.shPager(currpg);
+                if (!page.CanNext) page.DoFirmas();
             }
         }
 
@@ -64,6 +69,8 @@ namespace FormRender
             page = pg;
             frmPreview.Navigate(pg);
             lblCounter.Text = $"Pág. {currpg}/{page.PgCount}";
+            page.shPager(currpg);
+            if (!page.CanNext) page.DoFirmas();
             ShowDialog();
         }
     }
