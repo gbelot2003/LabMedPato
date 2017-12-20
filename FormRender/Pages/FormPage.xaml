@@ -6,7 +6,7 @@
       xmlns:system="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="1150" d:DesignWidth="800"
-	Title="FormPage">
+	Title="FormPage" Background="White">
     <Page.Resources>
         <FontFamily x:Key="fntFmly">Arial</FontFamily>
         <system:Double x:Key="fntSze">14</system:Double>
@@ -23,13 +23,13 @@
             <TranslateTransform/>
         </TransformGroup>
     </Page.Resources>
-    <Grid Margin="10">
-        <DockPanel Background="White" x:Name="RootContent">
+    <Grid Margin="11">
+        <DockPanel x:Name="RootContent">
             <Image Source="/FormRender;component/Assets/header.png" DockPanel.Dock="top"/>
 
             <!--Grid de footer-->
             <Grid DockPanel.Dock="Bottom" Height="86.658" Margin="0,0,0,40">
-                <Path Data="M0,0 L584,0 547,56 0,56 z" Fill="#FFBCBDC1"/>
+                <Path Data="M0,0 L594,0 557,56 0,56 z" Fill="#FFBCBDC1"/>
                 <Rectangle Fill="#FF35C2D4" Height="26" VerticalAlignment="Bottom" Margin="0,0,13,0"/>
                 <TextBlock Text="info@laboratoriosmedicos.hn" Margin="601,11,0,0" FontSize="13.7"/>
                 <TextBlock Text="www.laboratoriosmedicos.hn" Margin="603,27,0,0" FontSize="13.7"/>
@@ -46,7 +46,7 @@
                         </TransformGroup>
                     </TextBlock.LayoutTransform>
                 </TextBlock>
-                <Grid Margin="0,12,230,38.7" x:Name="grdftr">
+                <Grid Margin="0,8,230,38.7" x:Name="grdftr">
                     <Grid.Resources>
                         <Style TargetType="TextBlock">
                             <Setter Property="TextWrapping" Value="Wrap"/>
@@ -98,7 +98,7 @@
 
             <StackPanel>
                 <TextBlock x:Name="lblTit" FontSize="16" HorizontalAlignment="Center"/>
-                <Grid Margin="35,0" x:Name="grdHead">
+                <Grid Margin="34,0" x:Name="grdHead">
                     <Grid.Resources>
                         <Style TargetType="TextBlock">
                             <Setter Property="Margin" Value="5,5,0,0"/>
@@ -163,41 +163,41 @@
                 <Separator Background="Black" Height="3"/>
                 <FlowDocumentPageViewer
                     x:Name="fdpwContent"
-                    Margin="20,-30"
+                    Margin="20,-15"
                     TextOptions.TextFormattingMode="Display"                
                     FontFamily="{DynamicResource fntFmly}">
-                <FlowDocument ColumnWidth="99999" x:Name="docRoot">
+                <FlowDocument ColumnWidth="99999" PageHeight="690" x:Name="docRoot">
                         <Paragraph
                         FontFamily="{StaticResource fntFmly}"
                         FontSize="{StaticResource fntSze}" x:Name="par">
-                            <Floater HorizontalAlignment="Right" Width="250" x:Name="fltImages">
+                            <Floater HorizontalAlignment="Right" Width="230" x:Name="fltImages">
                                 <Floater.Resources>
                                     <Style TargetType="Image">
-                                        <Setter Property="Margin" Value="10,10,0,10"/>
+                                        <Setter Property="Margin" Value="10,10,0,5"/>
                                     </Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
                                         <Setter Property="FontStyle" Value="Italic"/>
-                                        <Setter Property="TextWrapping" Value="Wrap"/>
-                                        <Setter Property="Margin" Value="0,0,0,5"/>
+                                        <Setter Property="TextWrapping" Value="Wrap"/>                                        
+                                        <Setter Property="FontSize" Value="9"/>
                                     </Style>
                                     <Style TargetType="StackPanel">
-                                        <Setter Property="Margin" Value="0,10,-10,0"/>
+                                        <Setter Property="Margin" Value="-13, 10, 10,0"/>
                                     </Style>
                                 </Floater.Resources>
                             </Floater>
                         </Paragraph>
                     </FlowDocument>
                 </FlowDocumentPageViewer>
-                <Grid Margin="20,-25" Background="White">
-                    <DockPanel Margin="20,0">
+                <Grid Margin="20,-10" Background="White">
+                    <DockPanel Margin="17,10">
                         <Separator DockPanel.Dock="Top" Foreground="{x:Null}" Background="{x:Null}" Margin="0,20"/>
                         <StackPanel>
                             <TextBlock x:Name="lblIDt"/>
                             <TextBlock x:Name="txtFechaInf" FontWeight="Bold"/>
                             <TextBlock x:Name="txtPager"/>
                         </StackPanel>
-                        <Grid x:Name="grdFirmas"/>
+                        <StackPanel Orientation="Horizontal" x:Name="grdFirmas"/>
                     </DockPanel>
                 </Grid>
             </StackPanel>
