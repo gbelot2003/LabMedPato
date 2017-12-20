@@ -6,7 +6,7 @@
       xmlns:system="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="1150" d:DesignWidth="800"
-	Title="FormPage">
+	Title="FormPage" Background="White">
     <Page.Resources>
         <FontFamily x:Key="fntFmly">Arial</FontFamily>
         <system:Double x:Key="fntSze">14</system:Double>
@@ -24,7 +24,7 @@
         </TransformGroup>
     </Page.Resources>
     <Grid Margin="11">
-        <DockPanel Background="White" x:Name="RootContent">
+        <DockPanel x:Name="RootContent">
             <Image Source="/FormRender;component/Assets/header.png" DockPanel.Dock="top"/>
 
             <!--Grid de footer-->

@@ -25,7 +25,7 @@
                 <Button x:Name="btnNext" Content=" Sig. pág."/>
             </StackPanel>
         </Grid>
-        <Viewbox>
+        <Viewbox Margin="10,0,0,0">
             <Frame x:Name="frmPreview" Width="850" Height="1100"/>
         </Viewbox>
     </DockPanel>

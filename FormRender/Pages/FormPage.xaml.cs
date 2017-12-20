@@ -119,12 +119,9 @@ namespace FormRender.Pages
                     par.Inlines.Remove(fltImages);
                     break;
                 case 1: break;
-                case 2:
                 default:
-                    if (imgAdjust > 690 - grdHead.ActualHeight)
-                    {
-                        fltImages.Width = 230 * (690 - grdHead.ActualHeight) / imgAdjust;
-                    }
+                    if (imgAdjust > 690 - grdHead.ActualHeight)                    
+                        fltImages.Width = 230 * (690 - grdHead.ActualHeight) / imgAdjust;                    
                     break;
             }
             firma = data.firma;
@@ -142,10 +139,7 @@ namespace FormRender.Pages
         {
             if (!f.IsNull())
             {
-                //grdFirmas.ColumnDefinitions.Add(new ColumnDefinition());
                 StackPanel pnl = new StackPanel { Margin = new Thickness(60, 0, 0, 0) };
-                //Grid.SetColumn(pnl, grdFirmas.ColumnDefinitions.Count - 1);
-
                 if (!f.name.IsEmpty())
                 {
                     TextBlock t = new TextBlock
@@ -185,7 +179,7 @@ namespace FormRender.Pages
         public void PrevPage() => fdpwContent.PreviousPage();
         public bool CanNext => fdpwContent.CanGoToNextPage;
         public bool CanPrev => fdpwContent.CanGoToPreviousPage;
-        public void shPager(int pgnum) => txtPager.Text = $"{lblPg} {pgnum}/{fdpwContent.PageCount} - {lblNB.Text} {txtBiop.Text}";
+        public void ShowPager(int pgnum) => txtPager.Text = $"{lblPg} {pgnum}/{fdpwContent.PageCount} - {lblNB.Text} {txtBiop.Text}";
 
 
         public void Print(short dpi = 300)
@@ -194,7 +188,7 @@ namespace FormRender.Pages
             if (!dialog.ShowDialog() ?? true) return;
             var sz = new Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight);
             Measure(sz);
-            Arrange(new Rect(sz)); //ctrlSize
+            Arrange(new Rect(sz));
             fdpwContent.GoToPage(1);
             UndoFirma();
 #if RenderMulti
@@ -240,9 +234,8 @@ namespace FormRender.Pages
 #else
             for (int c = 1; c <= fdpwContent.PageCount; c++)
             {
-                //Render compacto de una página
                 if (c == fdpwContent.PageCount) DoFirmas();
-                shPager(c);
+                ShowPager(c);
                 fdpwContent.UpdateLayout();
                 dialog.PrintVisual(this, $"{lblNB.Text} {txtBiop.Text}");
                 fdpwContent.NextPage();

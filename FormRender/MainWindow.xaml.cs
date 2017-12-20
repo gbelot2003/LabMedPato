@@ -20,8 +20,8 @@ namespace FormRender
             internal Language language;
         }
 
-        bool queueClose = false;
-        string usr, pw;
+        bool queueClose = true;
+        string usr = string.Empty, pw = string.Empty;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,25 +32,22 @@ namespace FormRender
             });
             btnPrint.Tag = new ApiInfo { ruta = null, language = FormRender.Language.Spanish };
             btnPrint2.Tag = new ApiInfo { ruta = "/eng", language = FormRender.Language.English };
+            var pwD = new MCART.Forms.PasswordDialog();
             try
             {
-                do
+                var r = pwD.Login(usr, pw, (u, p) => Utils.PatoClient.Login(u, p.ReadString()));
+                if (r.Result == MessageBoxResult.OK)
                 {
-                    var pwD = new MCART.Forms.PasswordDialog();
-                    var r = pwD.GetPassword(null, null, true);
-                    if (r.Result == MessageBoxResult.OK)
-                    {
-                        usr = r.Usr;
-                        pw = r.Pwd.ReadString();
-                    }
-                    else queueClose = true;
-                } while (!Utils.PatoClient.Login(usr, pw) && !queueClose);
+                    usr = r.Usr;
+                    pw = r.Pwd.ReadString();
+                    queueClose = false;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
-                queueClose = true;
             }
+            finally { pwD.Dispose(); }
             Loaded += (sender, e) => { if (queueClose) Close(); };
         }
 
@@ -88,14 +85,16 @@ namespace FormRender
                      */
                     .Replace("<br />", "<br/>")                             // Preproceso de breaks
                     .Replace("<div style=\"page-break-after:always\">", "") // remoción de <div /> separador innecesario
-                    .Replace("<br/>\r\n&nbsp;<br/>\r\n", "<br/><br/>")    // Sust. de nuevo párrafo (sucio a limpio)
+                    .Replace("<br/>\r\n&nbsp;<br/>\r\n", "<br/><br/>")      // Sust. de nuevo párrafo (sucio a limpio)
                     .Replace("\r\n", "<br/>")                               // Sust. de caracteres \r\n a <br/>
                     .Replace("\n", "<br/>")                                 // Sust. de caracter \n a <br/>
                     .Replace("<br/><br/><br/><br/>", "<br/><br/>")
                     .Replace("</strong><br/><br/>", "</strong><br />");
 
+                // Prueba para fingir contenidos largos
+                resp.informe += resp.informe;
+
                 (new PreviewWindow()).ShowInforme(new FormPage(resp, imgs, PageSizes.Carta, btn.language));
-                //(new FormPage(resp, imgs, PageSizes.Carta, btn.language)).Print();
             }
             catch (ArgumentNullException)
             {
