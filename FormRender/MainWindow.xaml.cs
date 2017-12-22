@@ -33,6 +33,13 @@ namespace FormRender
             btnPrint.Tag = new ApiInfo { ruta = null, language = FormRender.Language.Spanish };
             btnPrint2.Tag = new ApiInfo { ruta = "/eng", language = FormRender.Language.English };
             var pwD = new MCART.Forms.PasswordDialog();
+#if DEBUG
+            usr = "gbelot";
+            pw = "Luna0102";
+            txtSerie.Text = "11338";
+            txtfact.Text = "5119567";
+#endif
+
             try
             {
                 var r = pwD.Login(usr, pw, (u, p) => Utils.PatoClient.Login(u, p.ReadString()));

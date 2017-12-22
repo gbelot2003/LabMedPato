@@ -9,7 +9,7 @@
 	Title="FormPage" Background="White">
     <Page.Resources>
         <FontFamily x:Key="fntFmly">Arial</FontFamily>
-        <system:Double x:Key="fntSze">14</system:Double>
+        <system:Double x:Key="fntSze">12</system:Double>
         <TransformGroup x:Key="footerAdjust">
             <ScaleTransform ScaleY="0.85"/>
             <SkewTransform/>
@@ -22,6 +22,22 @@
             <RotateTransform Angle="90"/>
             <TranslateTransform/>
         </TransformGroup>
+        <Floater HorizontalAlignment="Right" Width="230" x:Key="fltImages">
+            <Floater.Resources>
+                <Style TargetType="Image">
+                    <Setter Property="Margin" Value="10,0,0,3"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="FontStyle" Value="Italic"/>
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                    <Setter Property="FontSize" Value="9"/>
+                </Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Margin" Value="-13, 0, 15,0"/>
+                </Style>
+            </Floater.Resources>
+        </Floater>
     </Page.Resources>
     <Grid Margin="11">
         <DockPanel x:Name="RootContent">
@@ -126,7 +142,7 @@
                         </DockPanel>
                         <DockPanel>
                             <TextBlock x:Name="lblDiag" FontWeight="Bold"/>
-                            <TextBlock x:Name="txtDiag"/>
+                            <TextBlock x:Name="txtDiag" Grid.ColumnSpan="2"/>
                         </DockPanel>
                         <DockPanel>
                             <TextBlock x:Name="lblMat" FontWeight="Bold"/>
@@ -166,32 +182,10 @@
                     Margin="20,-15"
                     TextOptions.TextFormattingMode="Display"                
                     FontFamily="{DynamicResource fntFmly}">
-                <FlowDocument ColumnWidth="99999" PageHeight="690" x:Name="docRoot">
-                        <Paragraph
-                        FontFamily="{StaticResource fntFmly}"
-                        FontSize="{StaticResource fntSze}" x:Name="par">
-                            <Floater HorizontalAlignment="Right" Width="230" x:Name="fltImages">
-                                <Floater.Resources>
-                                    <Style TargetType="Image">
-                                        <Setter Property="Margin" Value="10,10,0,5"/>
-                                    </Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                        <Setter Property="FontStyle" Value="Italic"/>
-                                        <Setter Property="TextWrapping" Value="Wrap"/>                                        
-                                        <Setter Property="FontSize" Value="9"/>
-                                    </Style>
-                                    <Style TargetType="StackPanel">
-                                        <Setter Property="Margin" Value="-13, 10, 10,0"/>
-                                    </Style>
-                                </Floater.Resources>
-                            </Floater>
-                        </Paragraph>
-                    </FlowDocument>
+                    <FlowDocument ColumnWidth="99999" PageHeight="690" x:Name="docRoot"/>
                 </FlowDocumentPageViewer>
-                <Grid Margin="20,-10" Background="White">
-                    <DockPanel Margin="17,10">
-                        <Separator DockPanel.Dock="Top" Foreground="{x:Null}" Background="{x:Null}" Margin="0,20"/>
+                <Grid Margin="20,-7" Background="White">
+                    <DockPanel Margin="17,0">
                         <StackPanel>
                             <TextBlock x:Name="lblIDt"/>
                             <TextBlock x:Name="txtFechaInf" FontWeight="Bold"/>
