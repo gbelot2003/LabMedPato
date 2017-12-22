@@ -1,4 +1,5 @@
 ﻿//#define RenderMulti
+#define StaticImgLayout
 
 using FormRender.Models;
 using MCART;
@@ -119,10 +120,15 @@ namespace FormRender.Pages
                     par.Inlines.Remove(fltImages);
                     break;
                 case 1: break;
+#if StaticImgLayout
+                case 2: fltImages.Width = 200; break;
+                default: fltImages.Width = 150; break;
+#else
                 default:
-                    if (imgAdjust > 690 - grdHead.ActualHeight)                    
-                        fltImages.Width = 230 * (690 - grdHead.ActualHeight) / imgAdjust;                    
+                    if (imgAdjust > 690 - grdHead.ActualHeight)
+                        fltImages.Width = 230 * (690 - grdHead.ActualHeight) / imgAdjust;
                     break;
+#endif
             }
             firma = data.firma;
             firma2 = data.firma2;
