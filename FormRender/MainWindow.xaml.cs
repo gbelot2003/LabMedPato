@@ -88,11 +88,8 @@ namespace FormRender
                     .Replace("<br/>\r\n&nbsp;<br/>\r\n", "<br/><br/>")      // Sust. de nuevo párrafo (sucio a limpio)
                     .Replace("\r\n", "<br/>")                               // Sust. de caracteres \r\n a <br/>
                     .Replace("\n", "<br/>")                                 // Sust. de caracter \n a <br/>
-                    .Replace("<br/><br/><br/><br/>", "<br/><br/>")
-                    .Replace("</strong><br/><br/>", "</strong><br />");
-
-                // Prueba para fingir contenidos largos
-                resp.informe += resp.informe;
+                    .Replace("<br/><br/><br/><br/>", "<br/><br/>")          // Remoción de párrafos innecesarios
+                    .Replace("</strong><br/><br/>", "</strong><br/>");      // Remoción de cambio de párrafo después de título
 
                 (new PreviewWindow()).ShowInforme(new FormPage(resp, imgs, PageSizes.Carta, btn.language));
             }
