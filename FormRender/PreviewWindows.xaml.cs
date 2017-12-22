@@ -10,6 +10,7 @@ namespace FormRender
     {
         FormPage page;
         int currpg = 1;
+
         /// <summary>
         /// Inicializa una nueva instancia de la clase <see cref="FormPage"/>.
         /// </summary>
@@ -21,6 +22,8 @@ namespace FormRender
             btnPrint.Click += BtnPrint_Click;
         }
 
+        bool updt;
+
         /// <summary>
         /// Muestra la vista previa de un informe.
         /// </summary>
@@ -28,10 +31,18 @@ namespace FormRender
         internal void ShowInforme(FormPage pg)
         {
             page = pg;
-            page.LayoutUpdated += (sender, e) => lblCounter.Text = $"Pág. {currpg}/{page.PgCount}";
+
+            page.LayoutUpdated += (sender, e) =>
+            {
+                lblCounter.Text = $"Pág. {currpg}/{page.PgCount}";
+                if (!page.CanNext && !updt)
+                {
+                    updt = true;
+                    page.DoFirmas();
+                }
+            };
             frmPreview.Navigate(pg);
             page.ShowPager(currpg);
-            if (!page.CanNext) page.DoFirmas();
             ShowDialog();
         }
 
@@ -62,5 +73,5 @@ namespace FormRender
         {
             page.Print();
         }
-   }
+    }
 }

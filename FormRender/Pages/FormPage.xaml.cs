@@ -1,4 +1,5 @@
 ﻿//#define RenderMulti
+//#define StaticImgLayout
 
 using FormRender.Models;
 using MCART;
@@ -19,12 +20,15 @@ namespace FormRender.Pages
     /// </summary>
     public partial class FormPage : Page
     {
+        const int DocSize = 870;
+
         FirmaResponse firma;
         FirmaResponse firma2;
         Size pageSize;
         Size ctrlSize;
         Language lang;
         string lblPg;
+        Floater fltImages;
 
         double imgAdjust = 0;
 
@@ -33,7 +37,7 @@ namespace FormRender.Pages
         private void GetImg(LabeledImage j)
         {
             Image img = new Image { Source = j.imagen };
-            TextBlock lbl = new TextBlock { Text = j.titulo, FontSize=11 };
+            TextBlock lbl = new TextBlock { Text = j.titulo, FontSize = 11 };
             StackPanel pnl = new StackPanel { Children = { img, lbl } };
             BlockUIContainer bl = new BlockUIContainer(pnl);
             fltImages.Blocks.Add(bl);
@@ -44,6 +48,7 @@ namespace FormRender.Pages
         internal FormPage(InformeResponse data, IEnumerable<LabeledImage> imgs, Size pgSize, Language language)
         {
             InitializeComponent();
+            fltImages = FindResource("fltImages") as Floater;
             lang = language;
             switch (lang)
             {
@@ -105,7 +110,13 @@ namespace FormRender.Pages
             {
                 oo.Blocks.FirstBlock.FontFamily = FindResource("fntFmly") as FontFamily;
                 oo.Blocks.FirstBlock.FontSize = (double)FindResource("fntSze");
-                par.SiblingBlocks.Add(oo.Blocks.FirstBlock);
+                docRoot.Blocks.Add(oo.Blocks.FirstBlock);
+            }
+
+            if (imgs.Any())
+            {
+                var fb = docRoot.Blocks.FirstBlock as Paragraph;
+                fb.Inlines.InsertBefore(fb.Inlines.FirstInline, fltImages);
             }
 
             pageSize = pgSize;
@@ -116,17 +127,21 @@ namespace FormRender.Pages
             switch (data.images.Length)
             {
                 case 0:
-                    par.Inlines.Remove(fltImages);
-                    break;
                 case 1: break;
+#if StaticImgLayout
+                case 2: fltImages.Width = 200; break;
+                default: fltImages.Width = 150; break;
+#else
                 default:
-                    if (imgAdjust > 690 - grdHead.ActualHeight)                    
-                        fltImages.Width = 230 * (690 - grdHead.ActualHeight) / imgAdjust;                    
+                    if (imgAdjust > DocSize - grdHead.ActualHeight)
+                        fltImages.Width = 230 * ((DocSize)- grdHead.ActualHeight) / imgAdjust;
                     break;
+#endif
             }
+
             firma = data.firma;
             firma2 = data.firma2;
-            docRoot.PageHeight = 690 - grdHead.ActualHeight;
+            docRoot.PageHeight = (DocSize-120) - grdHead.ActualHeight;
         }
         public void Rsze()
         {

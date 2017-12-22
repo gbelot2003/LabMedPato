@@ -33,6 +33,13 @@ namespace FormRender
             btnPrint.Tag = new ApiInfo { ruta = null, language = FormRender.Language.Spanish };
             btnPrint2.Tag = new ApiInfo { ruta = "/eng", language = FormRender.Language.English };
             var pwD = new MCART.Forms.PasswordDialog();
+#if DEBUG
+            usr = "gbelot";
+            pw = "Luna0102";
+            txtSerie.Text = "11338";
+            txtfact.Text = "5119567";
+#endif
+
             try
             {
                 var r = pwD.Login(usr, pw, (u, p) => Utils.PatoClient.Login(u, p.ReadString()));
@@ -88,11 +95,8 @@ namespace FormRender
                     .Replace("<br/>\r\n&nbsp;<br/>\r\n", "<br/><br/>")      // Sust. de nuevo párrafo (sucio a limpio)
                     .Replace("\r\n", "<br/>")                               // Sust. de caracteres \r\n a <br/>
                     .Replace("\n", "<br/>")                                 // Sust. de caracter \n a <br/>
-                    .Replace("<br/><br/><br/><br/>", "<br/><br/>")
-                    .Replace("</strong><br/><br/>", "</strong><br />");
-
-                // Prueba para fingir contenidos largos
-                resp.informe += resp.informe;
+                    .Replace("<br/><br/><br/><br/>", "<br/><br/>")          // Remoción de párrafos innecesarios
+                    .Replace("</strong><br/><br/>", "</strong><br/>");      // Remoción de cambio de párrafo después de título
 
                 (new PreviewWindow()).ShowInforme(new FormPage(resp, imgs, PageSizes.Carta, btn.language));
             }
