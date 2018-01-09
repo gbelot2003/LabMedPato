@@ -88,7 +88,7 @@ namespace FormRender.Pages
                     break;
             }
 
-            if (data.IsNull() || data.serial == 0) throw new ArgumentNullException();
+            if (data is null || data.serial == 0) throw new ArgumentNullException();
 
             //Llenar header...
             txtPaciente.Text = data.facturas.nombre_completo_cliente;
@@ -152,7 +152,7 @@ namespace FormRender.Pages
 
         private void DoFirma(FirmaResponse f)
         {
-            if (!f.IsNull())
+            if (!(f is null))
             {
                 StackPanel pnl = new StackPanel { Margin = new Thickness(60, 0, 0, 0) };
                 if (!f.name.IsEmpty())
