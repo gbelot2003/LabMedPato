@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace FormRender
 {
@@ -13,5 +7,12 @@ namespace FormRender
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            if (!MCART.Resources.RTInfo.RTSupport(typeof(App).Assembly) ?? false)
+            {
+                MessageBox.Show("Esta aplicación o uno de sus componentes se encuentra desactualizado(s).");
+            }
+        }
     }
 }
