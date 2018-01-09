@@ -100,7 +100,7 @@ namespace FormRender.Pages
             txtSexo.Text = data.facturas.sexo;
             txtFecha.Text = data.fecha_biopcia.HasValue ? data.fecha_biopcia.Value.ToString("dd/MM/yyyy") : string.Empty;
             txtRecv.Text = data.fecha_muestra.HasValue ? data.fecha_muestra.Value.ToString("dd/MM/yyyy") : string.Empty;
-            txtBiop.Text = $"{data.serial ?? 0} - {DateTime.Now.Year}";
+            txtBiop.Text = $"{data.serial ?? 0} - {data.fecha_biopcia?.Year.ToString() ?? "N/A"}";
             txtFactNum.Text = $"C.I. {data.factura_id}";
             txtFechaInf.Text = data.fecha_informe.HasValue ? data.fecha_informe.Value.ToString("dd/MM/yyyy") : string.Empty;
 
