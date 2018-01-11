@@ -1,12 +1,12 @@
 ﻿using FormRender.Models;
 using FormRender.Pages;
-using MCART;
+using TheXDS.MCART;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Controls;
-
+using static TheXDS.MCART.Networking.DownloadHelper;
 namespace FormRender
 {
     /// <summary>
@@ -32,7 +32,7 @@ namespace FormRender
             });
             btnPrint.Tag = new ApiInfo { ruta = null, language = FormRender.Language.Spanish };
             btnPrint2.Tag = new ApiInfo { ruta = "/eng", language = FormRender.Language.English };
-            var pwD = new MCART.Forms.PasswordDialog();
+            var pwD = new TheXDS.MCART.Forms.PasswordDialog();
 #if DEBUG
             usr = "gbelot";
             pw = "Luna0102";
@@ -42,11 +42,11 @@ namespace FormRender
 
             try
             {
-                var r = pwD.Login(usr, pw, (u, p) => Utils.PatoClient.Login(u, p.ReadString()));
+                var r = pwD.Login(usr, pw, (u, p) => Utils.PatoClient.Login(u, p.Read()));
                 if (r.Result == MessageBoxResult.OK)
                 {
                     usr = r.Usr;
-                    pw = r.Pwd.ReadString();
+                    pw = r.Pwd.Read();
                     queueClose = false;
                 }
             }
@@ -67,13 +67,26 @@ namespace FormRender
                 var resp = Utils.PatoClient.GetResponse(serie, fact, usr, pw, btn.ruta);
                 pnlControls.IsEnabled = false;
                 List<LabeledImage> imgs = new List<LabeledImage>();
-                int c = 0;
+                int c = 1;
                 foreach (var j in resp.images)
                 {
-                    lblStatus.Text = $"Descargando {j.descripcion ?? "imagen"}...";
-                    pgbStatus.Value = (c * 100 / resp.images.Length);
+                    lblStatus.Text = $"Descargando {j.descripcion ?? "imagen"} ({c}/{resp.images.Length})...";
                     var ms = new System.IO.MemoryStream();
-                    await MCART.Networking.Misc.DownloadHttpAsync(new Uri(Misc.imgPath + j.image_url), ms);
+                    await DownloadHttpAsync(new Uri(Misc.imgPath + j.image_url), ms, (p, t) =>
+                    {
+                        pgbStatus.Dispatcher.Invoke(() =>
+                        {
+                            if (p.HasValue)
+                            {
+                                pgbStatus.IsIndeterminate = false;
+                                pgbStatus.Value = (p ?? 0) * 100 / t;
+                            }
+                            else
+                            {
+                                pgbStatus.IsIndeterminate = true;
+                            }
+                        });
+                    });
                     imgs.Add(new LabeledImage
                     {
                         imagen = UI.GetBitmap(ms),

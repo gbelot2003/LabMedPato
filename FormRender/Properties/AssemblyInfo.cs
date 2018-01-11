@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using System.Windows;
-using MCART.Attributes;
+using TheXDS.MCART.Attributes;
 [assembly: AssemblyTitle("FormRender")]
 [assembly: AssemblyDescription("Utilidad de impresión de biopsias")]
 [assembly: AssemblyCompany("Grupo Sinergia")]
@@ -9,5 +9,5 @@ using MCART.Attributes;
 [assembly: AssemblyTrademark("Grupo Sinergia")]
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
 [assembly: AssemblyVersion("1.1.0.0")]
-[assembly: MinMCARTVersion(0, 7, 0, 0)]
-[assembly: TargetMCARTVersion(0, 7, 0, 0)]
+[assembly: MinMCARTVersion(0, 8, 0, 0)]
+[assembly: TargetMCARTVersion(0, 8, 0, 0)]
