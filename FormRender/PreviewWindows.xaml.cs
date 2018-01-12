@@ -20,6 +20,8 @@ namespace FormRender
             btnNext.Click += BtnNext_Click;
             btnPrev.Click += BtnPrev_Click;
             btnPrint.Click += BtnPrint_Click;
+            sldTextSize.ValueChanged += SldTextSize_ValueChanged;
+            sldImgWidth.ValueChanged += SldImgWidth_ValueChanged;
         }
 
         bool updt;
@@ -30,8 +32,9 @@ namespace FormRender
         /// <param name="pg"></param>
         internal void ShowInforme(FormPage pg)
         {
+            sldTextSize.Value = pg.TextSize;
+            sldImgWidth.Value = pg.ImgSize;
             page = pg;
-
             page.LayoutUpdated += (sender, e) =>
             {
                 lblCounter.Text = $"Pág. {currpg}/{page.PgCount}";
@@ -72,6 +75,14 @@ namespace FormRender
         private void BtnPrint_Click(object sender, RoutedEventArgs e)
         {
             page.Print();
+        }
+        private void SldImgWidth_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!(page is null)) page.ImgSize = e.NewValue;
+        }
+        private void SldTextSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!(page is null)) page.TextSize = e.NewValue;
         }
     }
 }

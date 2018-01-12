@@ -70,6 +70,7 @@ namespace FormRender
                 int c = 1;
                 foreach (var j in resp.images)
                 {
+                    pgbStatus.Value = 0;
                     lblStatus.Text = $"Descargando {j.descripcion ?? "imagen"} ({c}/{resp.images.Length})...";
                     var ms = new System.IO.MemoryStream();
                     await DownloadHttpAsync(new Uri(Misc.imgPath + j.image_url), ms, (p, t) =>

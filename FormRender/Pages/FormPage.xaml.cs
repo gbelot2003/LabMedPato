@@ -134,14 +134,14 @@ namespace FormRender.Pages
 #else
                 default:
                     if (imgAdjust > DocSize - grdHead.ActualHeight)
-                        fltImages.Width = 230 * ((DocSize)- grdHead.ActualHeight) / imgAdjust;
+                        fltImages.Width = 230 * ((DocSize) - grdHead.ActualHeight) / imgAdjust;
                     break;
 #endif
             }
 
             firma = data.firma;
             firma2 = data.firma2;
-            docRoot.PageHeight = (DocSize-120) - grdHead.ActualHeight;
+            docRoot.PageHeight = (DocSize - 120) - grdHead.ActualHeight;
         }
         public void Rsze()
         {
@@ -195,8 +195,20 @@ namespace FormRender.Pages
         public bool CanNext => fdpwContent.CanGoToNextPage;
         public bool CanPrev => fdpwContent.CanGoToPreviousPage;
         public void ShowPager(int pgnum) => txtPager.Text = $"{lblPg} {pgnum}/{fdpwContent.PageCount} - {lblNB.Text} {txtBiop.Text}";
-
-
+        public double TextSize
+        {
+            get => docRoot.Blocks.FirstBlock.FontSize;
+            set
+            {
+                foreach (var j in docRoot.Blocks)
+                    j.FontSize = value;
+            }
+        }
+        public double ImgSize
+        {
+            get => fltImages.Width;
+            set => fltImages.Width = value;
+        }
         public void Print(short dpi = 300)
         {
             PrintDialog dialog = new PrintDialog();
