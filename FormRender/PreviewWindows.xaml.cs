@@ -10,6 +10,7 @@ namespace FormRender
     {
         FormPage page;
         int currpg = 1;
+        bool updt;
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase <see cref="FormPage"/>.
@@ -23,8 +24,6 @@ namespace FormRender
             sldTextSize.ValueChanged += SldTextSize_ValueChanged;
             sldImgWidth.ValueChanged += SldImgWidth_ValueChanged;
         }
-
-        bool updt;
 
         /// <summary>
         /// Muestra la vista previa de un informe.
@@ -48,7 +47,6 @@ namespace FormRender
             page.ShowPager(currpg);
             ShowDialog();
         }
-
         private void BtnPrev_Click(object sender, RoutedEventArgs e)
         {
             if (page.CanPrev)
@@ -78,11 +76,21 @@ namespace FormRender
         }
         private void SldImgWidth_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (!(page is null)) page.ImgSize = e.NewValue;
+            if (!(page is null))
+            {
+                page.ImgSize = e.NewValue;
+                page.UndoFirma();
+                if (!page.CanNext) page.DoFirmas();
+            }
         }
         private void SldTextSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (!(page is null)) page.TextSize = e.NewValue;
+            if (!(page is null))
+            {
+                page.TextSize = e.NewValue;
+                page.UndoFirma();
+                if (!page.CanNext) page.DoFirmas();
+            }
         }
     }
 }

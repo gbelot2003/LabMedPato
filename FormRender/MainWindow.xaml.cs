@@ -62,10 +62,15 @@ namespace FormRender
         {
             try
             {
-                var btn = ((sender as Button)?.Tag as ApiInfo) ?? throw new Exception("El control no es un botón o no contiene información de API");
-                int serie = int.Parse(txtSerie.Text), fact = int.Parse(txtfact.Text);
-                var resp = Utils.PatoClient.GetResponse(serie, fact, usr, pw, btn.ruta);
                 pnlControls.IsEnabled = false;
+
+                var btn = ((sender as Button)?.Tag as ApiInfo) ?? throw new Exception("El control no es un botón o no contiene información de API");
+                var resp = Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text), usr, pw, btn.ruta);
+                if (resp is null)
+                {
+                    MessageBox.Show("Serie o factura inválidos!", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
                 List<LabeledImage> imgs = new List<LabeledImage>();
                 int c = 1;
                 foreach (var j in resp.images)
@@ -113,10 +118,6 @@ namespace FormRender
                     .Replace("</strong><br/><br/>", "</strong><br/>");      // Remoción de cambio de párrafo después de título
 
                 (new PreviewWindow()).ShowInforme(new FormPage(resp, imgs, PageSizes.Carta, btn.language));
-            }
-            catch (ArgumentNullException)
-            {
-                MessageBox.Show("Serie o factura inválidos!", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
