@@ -56,6 +56,13 @@ namespace FormRender
             }
             finally { pwD.Dispose(); }
             Loaded += (sender, e) => { if (queueClose) Close(); };
+            txtSerie.GotFocus += Txts_GotFocus;
+            txtfact.GotFocus += Txts_GotFocus;
+        }
+
+        private void Txts_GotFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox)?.SelectAll();
         }
 
         private async void BtnPrint_Click(object sender, RoutedEventArgs e)

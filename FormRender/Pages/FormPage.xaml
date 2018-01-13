@@ -180,6 +180,7 @@
                 <FlowDocumentPageViewer
                     x:Name="fdpwContent"
                     Margin="20,-15"
+                    IsEnabled="False"
                     TextOptions.TextFormattingMode="Display"                
                     FontFamily="{DynamicResource fntFmly}">
                     <FlowDocument ColumnWidth="99999" PageHeight="690" x:Name="docRoot"/>
