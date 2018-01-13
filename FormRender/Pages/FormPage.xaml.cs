@@ -194,6 +194,7 @@ namespace FormRender.Pages
         public void PrevPage() => fdpwContent.PreviousPage();
         public bool CanNext => fdpwContent.CanGoToNextPage;
         public bool CanPrev => fdpwContent.CanGoToPreviousPage;
+        public FlowDocumentPageViewer View => fdpwContent;
         public void ShowPager(int pgnum) => txtPager.Text = $"{lblPg} {pgnum}/{fdpwContent.PageCount} - {lblNB.Text} {txtBiop.Text}";
         public double TextSize
         {

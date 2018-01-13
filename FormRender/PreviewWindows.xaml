@@ -30,15 +30,15 @@
                 <TextBlock Text="Tamaño del texto"/>
                 <Slider
                     x:Name="sldTextSize"
-                    Minimum="11" Maximum="18"
+                    Minimum="10" Maximum="18"
                     Value="12" 
-                    SmallChange="0.5"/>
+                    SmallChange="1"/>
                 <TextBlock Text="Ancho de imágenes"/>
                 <Slider
                     x:Name="sldImgWidth"
-                    Minimum="100" Maximum="350"
+                    Minimum="100" Maximum="450"
                     Value="250"
-                    SmallChange="1" LargeChange="10"
+                    SmallChange="10" LargeChange="50"
                     TickFrequency="50"/>
             </StackPanel>
         </Grid>
