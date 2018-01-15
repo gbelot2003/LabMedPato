@@ -1,5 +1,7 @@
 ﻿using System.Windows;
-
+using static TheXDS.MCART.Resources.RTInfo;
+using TheXDS.MCART;
+using TheXDS.MCART.Attributes;
 namespace FormRender
 {
     /// <summary>
@@ -9,9 +11,11 @@ namespace FormRender
     {
         public App()
         {
-            if (!MCART.Resources.RTInfo.RTSupport(typeof(App).Assembly) ?? false)
+            if (!RTSupport(typeof(App).Assembly) ?? false)
             {
-                MessageBox.Show("Esta aplicación o uno de sus componentes se encuentra desactualizado(s).");
+                MessageBox.Show(
+                    $"Esta aplicación o uno de sus componentes se encuentra" +
+                    $" desactualizado(s). Se requiere MCART {typeof(App).Assembly.GetAttr<MinMCARTVersionAttribute>().Value}");
             }
         }
     }

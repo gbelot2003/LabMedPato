@@ -1,5 +1,9 @@
 ﻿using FormRender.Pages;
 using System.Windows;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace FormRender
 {
@@ -10,6 +14,7 @@ namespace FormRender
     {
         FormPage page;
         int currpg = 1;
+        bool updt;
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase <see cref="FormPage"/>.
@@ -20,9 +25,9 @@ namespace FormRender
             btnNext.Click += BtnNext_Click;
             btnPrev.Click += BtnPrev_Click;
             btnPrint.Click += BtnPrint_Click;
+            sldTextSize.ValueChanged += SldTextSize_ValueChanged;
+            sldImgWidth.ValueChanged += SldImgWidth_ValueChanged;
         }
-
-        bool updt;
 
         /// <summary>
         /// Muestra la vista previa de un informe.
@@ -30,32 +35,20 @@ namespace FormRender
         /// <param name="pg"></param>
         internal void ShowInforme(FormPage pg)
         {
+            sldTextSize.Value = pg.TextSize;
+            sldImgWidth.Value = pg.ImgSize;
             page = pg;
-
-            page.LayoutUpdated += (sender, e) =>
-            {
-                lblCounter.Text = $"Pág. {currpg}/{page.PgCount}";
-                if (!page.CanNext && !updt)
-                {
-                    updt = true;
-                    page.DoFirmas();
-                }
-            };
+            page.View.LayoutUpdated += UpdtLayout;
             frmPreview.Navigate(pg);
-            page.ShowPager(currpg);
             ShowDialog();
+            page.View.LayoutUpdated -= UpdtLayout;
         }
-
         private void BtnPrev_Click(object sender, RoutedEventArgs e)
         {
             if (page.CanPrev)
             {
                 currpg--;
-                lblCounter.Text = $"Pág. {currpg}/{page.PgCount}";
                 page.PrevPage();
-                page.ShowPager(currpg);
-                if (page.CanNext) page.UndoFirma();
-
             }
         }
         private void BtnNext_Click(object sender, RoutedEventArgs e)
@@ -63,15 +56,58 @@ namespace FormRender
             if (page.CanNext)
             {
                 currpg++;
-                lblCounter.Text = $"Pág. {currpg}/{page.PgCount}";
                 page.NextPage();
-                page.ShowPager(currpg);
-                if (!page.CanNext) page.DoFirmas();
             }
         }
         private void BtnPrint_Click(object sender, RoutedEventArgs e)
         {
             page.Print();
+        }
+        private void SldImgWidth_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!(page is null))
+            {
+                while (page.CanPrev)
+                {
+                    currpg--;
+                    page.PrevPage();
+                }
+                page.ImgSize = e.NewValue;
+                page.UndoFirma();
+                if (!page.CanNext) page.DoFirmas();
+            }
+        }
+        private void SldTextSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!(page is null))
+            {
+                while (page.CanPrev)
+                {
+                    currpg--;
+                    page.PrevPage();
+                }
+                page.TextSize = e.NewValue;
+                page.UndoFirma();
+                if (!page.CanNext) page.DoFirmas();
+            }
+        }
+        private async void UpdtLayout(object sender, EventArgs e)
+        {
+            if (!updt)
+            {
+                updt = true;
+                await Task.Run(() =>
+                {
+                    Thread.Sleep(100);
+                });
+                int pc = page.PgCount;
+                lblCounter.Text = $"Pág. {currpg}/{pc}";
+                page.ShowPager(currpg);
+                page.UndoFirma();
+                if (currpg == pc)//!page.CanNext)
+                    page.DoFirmas();
+                updt = false;
+            }
         }
     }
 }
