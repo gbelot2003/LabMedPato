@@ -87,8 +87,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Response.cs" />
-    <Compile Include="PreviewWindows.xaml.cs">
-      <DependentUpon>PreviewWindows.xaml</DependentUpon>
+    <Compile Include="PreviewWindow.xaml.cs">
+      <DependentUpon>PreviewWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\HtmlCssParser.cs" />
     <Compile Include="Utils\HtmlLexicalAnalyzer.cs" />
@@ -114,7 +114,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PreviewWindows.xaml">
+    <Page Include="PreviewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

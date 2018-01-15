@@ -20,7 +20,7 @@ namespace FormRender
         public const string usrPath = "http://190.109.192.61/api/user/";
 #endif
     }
-    internal enum Language
+    public enum Language
     {
         Spanish,
         English

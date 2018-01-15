@@ -1,7 +1,4 @@
-﻿//#define RenderMulti
-//#define StaticImgLayout
-
-using FormRender.Models;
+﻿using FormRender.Models;
 using TheXDS.MCART;
 using System;
 using System.Collections.Generic;
@@ -24,15 +21,15 @@ namespace FormRender.Pages
 
         FirmaResponse firma;
         FirmaResponse firma2;
-        Size pageSize;
         Size ctrlSize;
-        Language lang;
         string lblPg;
         Floater fltImages;
-
         double imgAdjust = 0;
 
-        public int PgCount => fdpwContent.PageCount;
+        public readonly InformeResponse Data;
+        public readonly IEnumerable<LabeledImage> Imgs;
+        public readonly Size pageSize;
+        public readonly Language lang;
 
         private void GetImg(LabeledImage j)
         {
@@ -44,8 +41,7 @@ namespace FormRender.Pages
             Rsze();
             imgAdjust += pnl.ActualHeight + 80;
         }
-
-        internal FormPage(InformeResponse data, IEnumerable<LabeledImage> imgs, Size pgSize, Language language)
+        internal FormPage(InformeResponse data, IEnumerable<LabeledImage> imgs, Size pgSize, Language language, bool useDPI = true)
         {
             InitializeComponent();
             fltImages = FindResource("fltImages") as Floater;
@@ -90,6 +86,8 @@ namespace FormRender.Pages
 
             if (data is null || data.serial == 0) throw new ArgumentNullException();
 
+            Data = data;
+            Imgs = imgs;
             //Llenar header...
             txtPaciente.Text = data.facturas.nombre_completo_cliente;
             txtMedico.Text = data.facturas.medico;
@@ -113,14 +111,18 @@ namespace FormRender.Pages
                 docRoot.Blocks.Add(oo.Blocks.FirstBlock);
             }
 
-            if (imgs.Any())
+            if (imgs?.Any() ?? false)
             {
                 var fb = docRoot.Blocks.FirstBlock as Paragraph;
                 fb.Inlines.InsertBefore(fb.Inlines.FirstInline, fltImages);
             }
 
             pageSize = pgSize;
-            ctrlSize = new Size(pageSize.Width * UI.GetXDpi(), pageSize.Height * UI.GetYDpi());
+            if (useDPI)
+                ctrlSize = new Size(pageSize.Width * UI.GetXDpi(), pageSize.Height * UI.GetYDpi());
+            else
+                ctrlSize = pgSize;
+
             Rsze();
 
             foreach (var j in imgs) GetImg(j);
@@ -128,20 +130,24 @@ namespace FormRender.Pages
             {
                 case 0:
                 case 1: break;
-#if StaticImgLayout
-                case 2: fltImages.Width = 200; break;
-                default: fltImages.Width = 150; break;
-#else
                 default:
                     if (imgAdjust > DocSize - grdHead.ActualHeight)
                         fltImages.Width = 230 * ((DocSize) - grdHead.ActualHeight) / imgAdjust;
                     break;
-#endif
             }
+
+            RootContent.Width = ctrlSize.Width;
+            RootContent.Height = ctrlSize.Height;
+            UpdateLayout();
 
             firma = data.firma;
             firma2 = data.firma2;
-            docRoot.PageHeight = (DocSize - 120) - grdHead.ActualHeight;
+            docRoot.PageHeight =
+                ActualHeight
+                - imgHeader.ActualHeight
+                - grdHead.ActualHeight
+                - grdFooter.ActualHeight
+                - grdPager.ActualHeight;
         }
         public void Rsze()
         {
@@ -192,83 +198,22 @@ namespace FormRender.Pages
         public void UndoFirma() => grdFirmas.Children.Clear();
         public void NextPage() => fdpwContent.NextPage();
         public void PrevPage() => fdpwContent.PreviousPage();
+        public void GotoPage(int page) => fdpwContent.GoToPage(page);
+        public int PgCount => fdpwContent.PageCount;
         public bool CanNext => fdpwContent.CanGoToNextPage;
         public bool CanPrev => fdpwContent.CanGoToPreviousPage;
         public FlowDocumentPageViewer View => fdpwContent;
-        public void ShowPager(int pgnum) => txtPager.Text = $"{lblPg} {pgnum}/{fdpwContent.PageCount} - {lblNB.Text} {txtBiop.Text}";
+        public void ShowPager(int pgnum) => ShowPager(pgnum, fdpwContent.PageCount);
+        public void ShowPager(int pgnum, int pgTot) => txtPager.Text = $"{lblPg} {pgnum}/{pgTot} - {lblNB.Text} {txtBiop.Text}";
         public double TextSize
         {
             get => docRoot.Blocks.FirstBlock.FontSize;
-            set
-            {
-                foreach (var j in docRoot.Blocks)
-                    j.FontSize = value;
-            }
+            set { foreach (var j in docRoot.Blocks) j.FontSize = value; }
         }
         public double ImgSize
         {
             get => fltImages.Width;
             set => fltImages.Width = value;
-        }
-        public void Print(short dpi = 300)
-        {
-            PrintDialog dialog = new PrintDialog();
-            if (!dialog.ShowDialog() ?? true) return;
-            var sz = new Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight);
-            Measure(sz);
-            Arrange(new Rect(sz));
-            fdpwContent.GoToPage(1);
-            UndoFirma();
-#if RenderMulti
-            if (fdpwContent.PageCount == 1)
-            {
-                DoFirma(firma);
-                DoFirma(firma2);
-                txtPager.Text = $"Page 1/1 - Biopsia No. {txtBiop.Text}";
-                fdpwContent.UpdateLayout();
-                dialog.PrintVisual(this, $"Biopsia {txtBiop.Text}");
-            }
-            else
-            {
-                int c = 1;
-                var pgSze = new Size(pageSize.Width * dpi, pageSize.Height * dpi);
-
-                //HACK: Las páginas deben renderizarse como bitmaps antes de imprimirse...
-                var document = new FixedDocument();
-                document.DocumentPaginator.PageSize = pgSze;
-                for (int j = 0; j < fdpwContent.PageCount; j++)
-                {
-                    txtPager.Text = $"Page {c}/{fdpwContent.PageCount} - Biopsia No. {txtBiop.Text}";
-                    if (c >= fdpwContent.PageCount)
-                    {
-                        DoFirma(firma);
-                        DoFirma(firma2);
-                    }
-                    var fixedPage = new FixedPage
-                    {
-                        Width = ctrlSize.Width,
-                        Height = ctrlSize.Height
-                    };
-                    fdpwContent.UpdateLayout();
-                    fixedPage.Children.Add(new Image { Source = this.Render(ctrlSize, pgSze, dpi) });
-                    var pageContent = new PageContent();
-                    ((IAddChild)pageContent).AddChild(fixedPage);
-                    document.Pages.Add(pageContent);
-                    c++;
-                    fdpwContent.NextPage();
-                }
-                dialog.PrintDocument(document.DocumentPaginator, $"Biopsia {txtBiop.Text}");
-            }
-#else
-            for (int c = 1; c <= fdpwContent.PageCount; c++)
-            {
-                if (c == fdpwContent.PageCount) DoFirmas();
-                ShowPager(c);
-                fdpwContent.UpdateLayout();
-                dialog.PrintVisual(this, $"{lblNB.Text} {txtBiop.Text}");
-                fdpwContent.NextPage();
-            }
-#endif
         }
     }
 }
