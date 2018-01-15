@@ -1,9 +1,12 @@
-﻿using FormRender.Pages;
+﻿//#define PagePrints
+using FormRender.Pages;
 using System.Windows;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Threading;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Markup;
 
 namespace FormRender
 {
@@ -61,7 +64,54 @@ namespace FormRender
         }
         private void BtnPrint_Click(object sender, RoutedEventArgs e)
         {
+#if PagePrints
+            page.GotoPage(1);
+            page.LayoutUpdated -= UpdtLayout;
             page.Print();
+            page.LayoutUpdated += UpdtLayout;
+#else
+            PrintDialog dialog = new PrintDialog();
+            if (!dialog.ShowDialog() ?? true) return;
+            var sz = new Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight);
+            //var sz2 = new Size(sz.Width * 788 / 96, sz.Height * 788 / 96);
+
+            var document = new FixedDocument();
+            document.DocumentPaginator.PageSize = sz;
+
+            for (int c = 1; c <= page.PgCount; c++)
+            {
+                var p = new FormPage(page.Data, page.Imgs, sz, page.lang, false)
+                {
+                    ImgSize = page.ImgSize,
+                    TextSize = page.TextSize
+                };
+                if (c == page.PgCount) p.DoFirmas();
+                p.GotoPage(c);
+                p.ShowPager(c, page.PgCount);
+                p.Measure(sz);
+                p.Arrange(new Rect(sz));
+                p.UpdateLayout();
+                Grid pc = p.RootContent;
+                p.Content = null;
+                p = null;
+
+                pc.Measure(sz);
+                pc.Arrange(new Rect(sz));
+                pc.UpdateLayout();
+
+                var fixedPage = new FixedPage
+                {
+                    Width = sz.Width,
+                    Height = sz.Height
+                };
+
+                fixedPage.Children.Add(pc);
+                var pageContent = new PageContent();
+                ((IAddChild)pageContent).AddChild(fixedPage);
+                document.Pages.Add(pageContent);
+            }
+            dialog.PrintDocument(document.DocumentPaginator, $"Biopsia {page.txtBiop.Text}");
+#endif
         }
         private void SldImgWidth_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -104,7 +154,7 @@ namespace FormRender
                 lblCounter.Text = $"Pág. {currpg}/{pc}";
                 page.ShowPager(currpg);
                 page.UndoFirma();
-                if (currpg == pc)//!page.CanNext)
+                if (currpg == pc)
                     page.DoFirmas();
                 updt = false;
             }
