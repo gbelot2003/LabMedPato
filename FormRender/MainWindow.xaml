@@ -1,7 +1,9 @@
 ﻿<Window x:Class="FormRender.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Utilidad de impresión de biopsias" MinWidth="200" Width="300" SizeToContent="Height" ResizeMode="NoResize">
+        Title="Utilidad de impresión de biopsias" MinWidth="200" Width="300" SizeToContent="Height" ResizeMode="NoResize" 
+        Icon="Assets/ico.png" 
+        >
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
@@ -26,11 +28,11 @@
                 <TextBox x:Name="txtSerie"/>
             </WrapPanel>
             <WrapPanel>
-                <TextBlock Margin="10,0,0,0" Text="Número de factura:"/>
+                <TextBlock Margin="14,0,0,0" Text="Número de factura:"/>
                 <TextBox x:Name="txtfact"/>
             </WrapPanel>
             <WrapPanel>
-                <Button x:Name="btnPrint" Click="BtnPrint_Click" Content="Generar"/>
+                <Button x:Name="btnPrint" Margin="12 0 5 0" Click="BtnPrint_Click" Content="Generar"/>
                 <Button x:Name="btnPrint2" Click="BtnPrint_Click" Content="Generar - Inglés"/>
             </WrapPanel>
         </WrapPanel>
