@@ -2,7 +2,7 @@
 
 namespace FormRender
 {
-    public static class Misc
+    public static class Config
     {
 #if Local
 #if DEBUG

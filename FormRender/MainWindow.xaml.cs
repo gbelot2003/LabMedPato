@@ -85,7 +85,7 @@ namespace FormRender
                     pgbStatus.Value = 0;
                     lblStatus.Text = $"Descargando {j.descripcion ?? "imagen"} ({c}/{resp.images.Length})...";
                     var ms = new System.IO.MemoryStream();
-                    await DownloadHttpAsync(new Uri(Misc.imgPath + j.image_url), ms, (p, t) =>
+                    await DownloadHttpAsync(new Uri(Config.imgPath + j.image_url), ms, (p, t) =>
                     {
                         pgbStatus.Dispatcher.Invoke(() =>
                         {
