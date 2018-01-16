@@ -77,30 +77,15 @@ namespace FormRender.Utils
             {
                 var shp = doc.Shapes.AddPicture($"{Config.imgPath}{j.image_url}", true, true);
 
-                shp.Height = shp.Height * 180 / shp.Width;
-                shp.Width = 180;
+                shp.Height = shp.Height * 120 / shp.Width;
+                shp.Width = 120;
                 shp.AlternativeText = j.descripcion;
                 shp.Top = lastTop;
-                
+                shp.Left = 400;
+                shp.WrapFormat.Type = WdWrapType.wdWrapSquare;
                 lastTop += shp.Height;
             }
-
-
             wordApp.Visible = true;
-
-            wordApp.Quit(false);
-
-            while (File.Exists((string)templPath))
-            {
-                try { File.Delete(((string)templPath)); }
-                catch
-                {
-                    // Esperar a q word se cierre...
-                    await (new System.Threading.Tasks.Task(() => { System.Threading.Thread.Sleep(1000); }));
-                }
-            }
-
-
         }
         public void UpdateFields(Document doc)
         {
