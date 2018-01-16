@@ -56,7 +56,7 @@ namespace FormRender.Pages
                     lblDiag.Text = "Diag. Clínico:";
                     lblMat.Text = "Material Estudiado:";
                     lblAge.Text = "Edad:";
-                    lblSex.Text = "  Sexo:";
+                    lblSex.Text = "  Género:";
                     lblDte.Text = "Fecha:";
                     lblRec.Text = "Recibido:";
                     lblNB.Text = "No. biopsia:";
@@ -72,9 +72,9 @@ namespace FormRender.Pages
                     lblDiag.Text = "Clinical Diag.:";
                     lblMat.Text = "Studied Material:";
                     lblAge.Text = "Age:";
-                    lblSex.Text = "  Sex:";
+                    lblSex.Text = "  Gender:";
                     lblDte.Text = "Date:";
-                    lblRec.Text = "Recieved:";
+                    lblRec.Text = "Received:";
                     lblNB.Text = "Biopsy N.:";
                     lblINF.Text = "REPORT";
                     lblIDt.Text = "Report date:";
