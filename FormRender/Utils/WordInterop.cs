@@ -38,7 +38,7 @@ namespace FormRender.Utils
             {
                 await s.CopyToAsync(w);
                 await w.FlushAsync();
-                File.Delete((string)templPath);
+                File.Delete(w.Name.Replace(".dotx", ""));
                 return w.Name;
             }
         }
@@ -64,13 +64,35 @@ namespace FormRender.Utils
             doc.Variables["Recibido"].Value = $"{data.fecha_muestra?.ToString("dd/MM/yyyy")}";
             doc.Variables["Sexo"].Value = data.facturas.sexo;
             UpdateFields(doc);
+
+            string path = Path.GetTempFileName();
+            File.WriteAllText(path, $"<html>{data.informe}</html>");
+            doc.Content.InsertFile(path, ConfirmConversions: false);
+            File.Delete(path);
+
+            doc.Content.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
+
+            float lastTop=0;
+            foreach (var j in data.images)
+            {
+                var shp = doc.Shapes.AddPicture($"{Config.imgPath}{j.image_url}", true, true);
+
+                shp.Height = shp.Height * 180 / shp.Width;
+                shp.Width = 180;
+                shp.AlternativeText = j.descripcion;
+                shp.Top = lastTop;
+                
+                lastTop += shp.Height;
+            }
+
+
             wordApp.Visible = true;
 
             wordApp.Quit(false);
 
             while (File.Exists((string)templPath))
             {
-                try { File.Delete(((string)templPath).Replace(".dotx", "")); }
+                try { File.Delete(((string)templPath)); }
                 catch
                 {
                     // Esperar a q word se cierre...
