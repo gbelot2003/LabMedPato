@@ -165,13 +165,7 @@
     <Resource Include="TestImages\Grass.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\lab.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\ico.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\ico.png" />
+    <Resource Include="Assets\ico_E7G_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
