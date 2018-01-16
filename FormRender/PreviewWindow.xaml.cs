@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using FormRender.Utils;
 
 namespace FormRender
 {
@@ -28,8 +29,15 @@ namespace FormRender
             btnNext.Click += BtnNext_Click;
             btnPrev.Click += BtnPrev_Click;
             btnPrint.Click += BtnPrint_Click;
+            btnWord.Click += BtnWord_Click;
             sldTextSize.ValueChanged += SldTextSize_ValueChanged;
             sldImgWidth.ValueChanged += SldImgWidth_ValueChanged;
+        }
+
+        private void BtnWord_Click(object sender, RoutedEventArgs e)
+        {
+            var w = new WordInterop();
+            w.Convert(page.Data, page.Imgs, page.lang);
         }
 
         /// <summary>

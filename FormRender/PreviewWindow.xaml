@@ -40,6 +40,8 @@
                     Value="250"
                     SmallChange="10" LargeChange="50"
                     TickFrequency="50"/>
+                <Separator/>
+                <Button x:Name="btnWord" Content="A Word..."/>
             </StackPanel>
         </Grid>
         <Viewbox Margin="10,0,0,0">

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Net;
 using System.Text;
-using static FormRender.Misc;
+using static FormRender.Config;
 
 namespace FormRender.Utils
 {
