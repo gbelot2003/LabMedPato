@@ -32,29 +32,21 @@ namespace FormRender
             });
             btnPrint.Tag = new ApiInfo { ruta = null, language = FormRender.Language.Spanish };
             btnPrint2.Tag = new ApiInfo { ruta = "/eng", language = FormRender.Language.English };
-            var pwD = new TheXDS.MCART.Forms.PasswordDialog();
 #if DEBUG
             usr = "gbelot";
             pw = "Luna0102";
             txtSerie.Text = "11338";
             txtfact.Text = "5119567";
 #endif
-
             try
             {
-                var r = pwD.Login(usr, pw, (u, p) => Utils.PatoClient.Login(u, p.Read()));
-                if (r.Result == MessageBoxResult.OK)
-                {
-                    usr = r.Usr;
-                    pw = r.Pwd.Read();
-                    queueClose = false;
-                }
+                queueClose = !new Dialogs.LoginDialog().GetLogin(pw, ref usr, out var spw);
+                pw = spw.Read();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            finally { pwD.Dispose(); }
             Loaded += (sender, e) => { if (queueClose) Close(); };
             txtSerie.GotFocus += Txts_GotFocus;
             txtfact.GotFocus += Txts_GotFocus;
@@ -70,14 +62,17 @@ namespace FormRender
             try
             {
                 pnlControls.IsEnabled = false;
-
+                pgbStatus.IsIndeterminate = true;
+                lblStatus.Text = $"Obteniendo informe...";
                 var btn = ((sender as Button)?.Tag as ApiInfo) ?? throw new Exception("El control no es un botón o no contiene información de API");
-                var resp = Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text), usr, pw, btn.ruta);
+                var resp = await Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text), usr, pw, btn.ruta);
                 if (resp is null)
                 {
                     MessageBox.Show("Serie o factura inválidos!", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
+                pgbStatus.IsIndeterminate = false;
+
                 List<LabeledImage> imgs = new List<LabeledImage>();
                 int c = 1;
                 foreach (var j in resp.images)
