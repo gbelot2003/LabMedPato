@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Office.Interop.Word;
+using MsoTextOrientation = Microsoft.Office.Core.MsoTextOrientation;
+using MsoTriState = Microsoft.Office.Core.MsoTriState;
 using FormRender.Models;
 using TheXDS.MCART;
 using HTC = HTMLConverter.HtmlToXamlConverter;
@@ -25,7 +27,14 @@ namespace FormRender.Utils
         readonly Application wordApp = new Application();
 
         object templPath;
-
+        public WordInterop()
+        {
+            foreach (var f in new DirectoryInfo(Environment.GetEnvironmentVariable("TMP")).GetFiles("*.dotx"))
+            {
+                try { f.Delete(); }
+                catch { }
+            }
+        }
         /// <summary>
         /// Extrae un Template a un archivo temporal.
         /// </summary>
@@ -72,7 +81,7 @@ namespace FormRender.Utils
 
             doc.Content.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
 
-            float lastTop=0;
+            float lastTop = 0;
             foreach (var j in data.images)
             {
                 var shp = doc.Shapes.AddPicture($"{Config.imgPath}{j.image_url}", true, true);
@@ -85,6 +94,31 @@ namespace FormRender.Utils
                 shp.WrapFormat.Type = WdWrapType.wdWrapSquare;
                 lastTop += shp.Height;
             }
+
+            int lp = doc.Content.StoryLength - 1;
+            Range endOfDoc = doc.Range(lp, lp);
+            Shape firmasBox = doc.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 200, 661, 373, 50, endOfDoc);
+            Table firmas = doc.Tables.Add(firmasBox.TextFrame.TextRange, 1, 2);
+            firmasBox.Line.Visible = MsoTriState.msoFalse;
+            firmasBox.RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
+            if (!(data.firma is null))
+            {
+                var rng = firmas.Cell(1, 1).Range;
+                rng.Text = $"{data.firma.name}\n{data.firma.collegiate}\n{data.firma.extra}";
+                rng.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                rng.ParagraphFormat.SpaceAfter = 0;
+                rng.ParagraphFormat.SpaceBefore = 0;
+            }
+
+            if (!(data.firma2 is null))
+            {
+                var rng = firmas.Cell(1, 2).Range;
+                rng.Text = $"{data.firma2.name}\r{data.firma2.collegiate}\r{data.firma2.extra}";
+                rng.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                rng.ParagraphFormat.SpaceAfter = 0;
+                rng.ParagraphFormat.SpaceBefore = 0;
+            }
+
             wordApp.Visible = true;
         }
         public void UpdateFields(Document doc)
