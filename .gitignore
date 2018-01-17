@@ -6,6 +6,8 @@
 [Bb]uild/
 [Oo]bj/
 [Bb]in/
+[Dd]ebug/
+[Rr]elease/
 packages/
 TestResults/
 
