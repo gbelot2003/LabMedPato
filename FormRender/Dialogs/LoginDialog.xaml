@@ -6,7 +6,7 @@
         xmlns:mcart="clr-namespace:TheXDS.MCART.Controls;assembly=TheXDS.MCART.WPF"
         mc:Ignorable="d"
         x:Class="FormRender.Dialogs.LoginDialog"
-        Title="Iniciar sesión" Width="300" Height="320" WindowStyle="None" Background="Gray">
+        Title="Iniciar sesión" Width="300" Height="320" WindowStyle="None" Background="Gray" WindowStartupLocation="CenterScreen">
     <Grid>
         <Image Source="/FormRender;component/Assets/ghost_icon.png" Height="420" Width="420" Opacity="0.4"/>
         <DockPanel>
