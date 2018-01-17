@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Utilidad de impresión de biopsias"
         MinWidth="200" Width="300" SizeToContent="Height" ResizeMode="NoResize"
-        Icon="Assets/ico_E7G_icon.ico"
+        Icon="lab.ico"
         WindowStartupLocation="CenterScreen" >
     <StackPanel Margin="10">
         <Grid Margin="10" x:Name="pnlControls">

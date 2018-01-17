@@ -92,6 +92,7 @@ namespace FormRender.Dialogs
             txtPw.Password = plainPw;
             txtUsr.Focus();
             bool retVal = ShowDialog() ?? false;
+            usr = txtUsr.Text;
             password = txtPw.SecurePassword;
             return retVal;
         }
