@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Globalization;
 using System.Security;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace FormRender.Dialogs
 {
@@ -12,14 +10,23 @@ namespace FormRender.Dialogs
     /// </summary>
     public partial class LoginDialog : Window
     {
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase
+        /// <see cref="LoginDialog"/>.
+        /// </summary>
         public LoginDialog()
         {
             InitializeComponent();
-            bsyGo.SetBinding(VisibilityProperty, new Binding(nameof(Visibility)) { Source = btnGo, Converter = new VisibilityInverter() });
             btnGo.Click += BtnGo_Click;
             btnClose.Click += (sender, e) => Close();
             txtUsr.GotFocus += TxtFocus;
+            txtUsr.TextChanged += WarnClear;
             txtPw.GotFocus += TxtFocus;
+            txtPw.PasswordChanged += WarnClear;
+        }
+        private void WarnClear(object sender, RoutedEventArgs e)
+        {
+            loginWarning.Text = string.Empty;
         }
         private void TxtFocus(object sender, RoutedEventArgs e)
         {
@@ -28,19 +35,39 @@ namespace FormRender.Dialogs
         }
         private async void BtnGo_Click(object sender, RoutedEventArgs e)
         {
-            loginWarning.Visibility = Visibility.Collapsed;
-            btnGo.Visibility = Visibility.Hidden;
-            if (!await Utils.PatoClient.Login(txtUsr.Text, txtPw.Password))
+            btnGo.IsEnabled = false;
+            try
             {
-                txtPw.Focus();
+                if (!await Utils.PatoClient.Login(txtUsr.Text, txtPw.Password))
+                {
+                    loginWarning.Text = "Contraseña inválida.";
+                    txtPw.Focus();
+                }
+                else
+                {
+                    DialogResult = true;
+                    Close();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                DialogResult = true;
-                Close();
+                loginWarning.Text = ex.Message;
             }
-            btnGo.Visibility = Visibility.Visible;
+            finally
+            {
+                btnGo.IsEnabled = true;
+            }
         }
+
+        /// <summary>
+        /// Obtiene la información de inicio de sesión.
+        /// </summary>
+        /// <param name="usr">Usuario</param>
+        /// <param name="password">Contraseña</param>
+        /// <returns>
+        /// <c>true</c> si se ha iniciado sesión correctamente, <c>false</c> en
+        /// caso contrario.
+        ///</returns>
         public bool GetLogin(out string usr, out SecureString password)
         {
             usr = string.Empty;
@@ -67,21 +94,6 @@ namespace FormRender.Dialogs
             bool retVal = ShowDialog() ?? false;
             password = txtPw.SecurePassword;
             return retVal;
-        }
-    }
-
-    public class VisibilityInverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            Visibility v = (Visibility)value;
-            return v == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            Visibility v = (Visibility)value;
-            return v == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 }
