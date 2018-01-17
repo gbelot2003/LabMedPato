@@ -100,16 +100,14 @@ namespace FormRender
                 currpg--;
                 page.PrevPage();
             }
-            btnPrev.IsEnabled = page.CanPrev;
         }
         private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
             if (page.CanNext)
             {
                 currpg++;
-                page.NextPage();
-            }
-            btnNext.IsEnabled = page.CanNext;
+                page.NextPage();             
+            }            
         }
         private void SldImgWidth_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -166,6 +164,9 @@ namespace FormRender
             if (!updt)
             {
                 updt = true;
+                btnPrev.IsEnabled = page.CanPrev;
+                btnNext.IsEnabled = page.CanNext;
+
                 // Necesario, libera al CPU de constantes llamadas de Layout.
                 await Task.Run(() =>
                 {
