@@ -51,7 +51,6 @@ namespace FormRender.Utils
         {
             var doc = await OpenTemplate(language);
 
-
             doc.Variables["Biopsia"].Value = $"{data.serial.ToString() ?? "N/A"} - {data.fecha_biopcia?.Year.ToString() ?? "N/A"}";
             doc.Variables["Diagnostico"].Value = data.diagnostico;
             doc.Variables["Direccion"].Value = data.facturas.direccion_entrega_sede;
@@ -66,8 +65,9 @@ namespace FormRender.Utils
             UpdateFields(doc);
 
             string path = Path.GetTempFileName();
-            File.WriteAllText(path, $"<html>{data.informe}</html>");
+            File.WriteAllText(path, $"<html><p>{data.informe.Replace("<br/>", "</p><p>")}</p></html>");
             doc.Content.InsertFile(path, ConfirmConversions: false);
+            doc.Content.Font.Name = "Calibri";
             File.Delete(path);
 
             doc.Content.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
