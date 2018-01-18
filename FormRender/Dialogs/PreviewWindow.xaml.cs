@@ -9,7 +9,7 @@ using System.Windows.Markup;
 using FormRender.Utils;
 using System.Windows.Data;
 
-namespace FormRender
+namespace FormRender.Dialogs
 {
     /// <summary>
     /// Lógica de interacción para PreviewWindows.xaml

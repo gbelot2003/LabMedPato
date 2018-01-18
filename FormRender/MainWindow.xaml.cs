@@ -1,12 +1,14 @@
-﻿using FormRender.Models;
+﻿using FormRender.Dialogs;
+using FormRender.Models;
 using FormRender.Pages;
-using TheXDS.MCART;
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Controls;
+using System.Windows.Data;
+using TheXDS.MCART;
 using static TheXDS.MCART.Networking.DownloadHelper;
+
 namespace FormRender
 {
     /// <summary>

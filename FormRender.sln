@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormRender", "FormRender\FormRender.csproj", "{04006340-3FF7-4BE6-B8B4-AB46095857C0}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup1", "Setup1\Setup1.vdproj", "{D1573DAE-BEC9-422B-A636-F37CF6446132}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{D1573DAE-BEC9-422B-A636-F37CF6446132}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
