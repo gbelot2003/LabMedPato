@@ -69,8 +69,8 @@ namespace FormRender.Pages
                     lblPac.Text = "Patient:";
                     lblMed.Text = "Medic:";
                     lblAddr.Text = "Address:";
-                    lblDiag.Text = "Clinical Diag.:";
-                    lblMat.Text = "Studied Material:";
+                    lblDiag.Text = "Clinical Diagnosis:";
+                    lblMat.Text = "Speciment :";
                     lblAge.Text = "Age:";
                     lblSex.Text = "  Gender:";
                     lblDte.Text = "Date:";
