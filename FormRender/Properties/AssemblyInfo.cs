@@ -8,6 +8,6 @@ using TheXDS.MCART.Attributes;
 [assembly: AssemblyCopyright("Copyright © 2017, 2018 Grupo Sinergia S.A. de C.V.")]
 [assembly: AssemblyTrademark("Grupo Sinergia S.A. de C.V.")]
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyVersion("1.12.*")]
 [assembly: MinMCARTVersion(0, 8, 0, 0)]
 [assembly: TargetMCARTVersion(0, 8, 0, 0)]

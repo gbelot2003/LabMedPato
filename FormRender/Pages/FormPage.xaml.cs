@@ -215,5 +215,7 @@ namespace FormRender.Pages
             get => fltImages.Width;
             set => fltImages.Width = value;
         }
+
+        public FlowDocumentPageViewer FDocument => fdpwContent;
     }
 }

@@ -75,6 +75,9 @@ namespace FormRender.Dialogs
                 p.Measure(sz);
                 p.Arrange(new Rect(sz));
                 p.UpdateLayout();
+                p.fdpwContent.UpdateLayout();
+                if (c == page.PgCount)
+                    MessageBox.Show("Imprimiendo documento...", "Imprimir", MessageBoxButton.OK, MessageBoxImage.Information);
                 Grid pc = p.RootContent;
                 p.Content = null;
                 p = null;

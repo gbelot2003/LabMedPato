@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Office.Interop.Word;
 using MsoTextOrientation = Microsoft.Office.Core.MsoTextOrientation;
 using MsoTriState = Microsoft.Office.Core.MsoTriState;
 using FormRender.Models;
-using TheXDS.MCART;
-using HTC = HTMLConverter.HtmlToXamlConverter;
-using XA = System.Windows.Markup.XamlReader;
 
 namespace FormRender.Utils
 {
@@ -24,12 +19,12 @@ namespace FormRender.Utils
 
     public class WordInterop
     {
-        readonly Application wordApp = new Application();
+        readonly Application _wordApp = new Application();
 
-        object templPath;
+        object _templPath;
         public WordInterop()
         {
-            foreach (var f in new DirectoryInfo(Environment.GetEnvironmentVariable("TMP")).GetFiles("*.dotx"))
+            foreach (var f in new DirectoryInfo(Path.GetTempPath()).GetFiles("*.dotx"))
             {
                 try { f.Delete(); }
                 catch { }
@@ -53,8 +48,8 @@ namespace FormRender.Utils
         }
         public async Task<Document> OpenTemplate(Language language)
         {
-            templPath = await UnpackTemplate(language);
-            return wordApp.Documents.Add(ref templPath);
+            _templPath = await UnpackTemplate(language);
+            return _wordApp.Documents.Add(ref _templPath);
         }
         public async void Convert(InformeResponse data, IEnumerable<LabeledImage> imgs, Language language)
         {
@@ -119,12 +114,12 @@ namespace FormRender.Utils
                 rng.ParagraphFormat.SpaceBefore = 0;
             }
 
-            wordApp.Visible = true;
+            _wordApp.Visible = true;
         }
         public void UpdateFields(Document doc)
         {
-            var pAlerts = wordApp.DisplayAlerts;
-            wordApp.DisplayAlerts = WdAlertLevel.wdAlertsNone;
+            var pAlerts = _wordApp.DisplayAlerts;
+            _wordApp.DisplayAlerts = WdAlertLevel.wdAlertsNone;
 
             foreach (Range pRange in doc.StoryRanges)
             {
@@ -150,7 +145,7 @@ namespace FormRender.Utils
                         break;
                 }
             }
-            wordApp.DisplayAlerts = pAlerts;
+            _wordApp.DisplayAlerts = pAlerts;
         }
     }
 }
