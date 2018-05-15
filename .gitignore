@@ -44,3 +44,4 @@ test-results/
 
 # dotCover
 *.dotCover
+/Setup/Release_Ext

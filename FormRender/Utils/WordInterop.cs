@@ -92,7 +92,7 @@ namespace FormRender.Utils
 
             int lp = doc.Content.StoryLength - 1;
             Range endOfDoc = doc.Range(lp, lp);
-            Shape firmasBox = doc.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 200, 661, 373, 50, endOfDoc);
+            Shape firmasBox = doc.Shapes.AddTextbox(MsoTextOrientation.msoTextOrientationHorizontal, 200, 650.8346f, 373, 50, endOfDoc);
             Table firmas = doc.Tables.Add(firmasBox.TextFrame.TextRange, 1, 2);
             firmasBox.Line.Visible = MsoTriState.msoFalse;
             firmasBox.RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;

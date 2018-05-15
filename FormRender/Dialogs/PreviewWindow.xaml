@@ -5,11 +5,12 @@
     xmlns:mcart="clr-namespace:TheXDS.MCART.Controls;assembly=TheXDS.MCART.WPF"
     Title="Vista previa" Background="Gray" Icon="../Assets/lab.ico" WindowStartupLocation="CenterOwner" WindowState="Maximized">
     <DockPanel Margin="10">
-        <Grid Background="White" x:Name="pnlControls">
+        <Grid Background="White" x:Name="PnlControls">
             <StackPanel Margin="10" Width="120">
                 <StackPanel.Resources>
                     <Style TargetType="TextBlock">
                         <Setter Property="Margin" Value="0,0,0,10"/>
+                        <Setter Property="TextWrapping" Value="Wrap"/>
                     </Style>
                     <Style TargetType="Separator">
                         <Setter Property="Margin" Value="0,0,0,10"/>
@@ -22,36 +23,46 @@
                         <Setter Property="TickPlacement" Value="TopLeft"/>
                     </Style>
                 </StackPanel.Resources>
-                <Button x:Name="btnPrint" Content="Imprimir"/>
+                <Button x:Name="BtnPrint" Content="Imprimir"/>
                 <Separator/>
-                <TextBlock x:Name="lblCounter" Text="Pág. 1/3" TextAlignment="Center"/>
-                <Button x:Name="btnPrev" Content=" Pág. prev."/>
-                <Button x:Name="btnNext" Content=" Sig. pág."/>
+                <TextBlock x:Name="LblCounter" Text="Pág. 1/3" TextAlignment="Center"/>
+                <Button x:Name="BtnPrev" Content=" Pág. prev."/>
+                <Button x:Name="BtnNext" Content=" Sig. pág."/>
                 <Separator/>
                 <TextBlock Text="Tamaño del texto"/>
                 <Slider
-                    x:Name="sldTextSize"
+                    x:Name="SldTextSize"
                     Minimum="10" Maximum="18"
                     Value="12" 
                     SmallChange="1"/>
                 <TextBlock Text="Ancho de imágenes"/>
                 <Slider
-                    x:Name="sldImgWidth"
+                    x:Name="SldImgWidth"
                     Minimum="100" Maximum="450"
                     Value="250"
                     SmallChange="10" LargeChange="50"
                     TickFrequency="50"/>
+                <CheckBox
+                    x:Name="ChkConHeader"
+                    VerticalContentAlignment="Center" 
+                    IsChecked="{x:Null}"
+                    Checked="ChkConHeader_OnChecked"
+                    Unchecked="ChkConHeader_OnUnchecked">
+                    <CheckBox.Content>
+                        <TextBlock Text="Imprimir con header / footer"/>
+                    </CheckBox.Content>
+                </CheckBox>
                 <Separator/>
-                <Button x:Name="btnWord" Content="A Word..."/>
+                <Button x:Name="BtnWord" Content="Exportar a Word..."/>
             </StackPanel>
         </Grid>
         <Grid Margin="10,0,0,0">
             <Viewbox>
-                <Frame x:Name="frmPreview" Width="816" Height="1056"/>
+                <Frame x:Name="FrmPreview" Width="816" Height="1056"/>
             </Viewbox>
-            <Grid x:Name="busyMessage" Background="#70000000" >
+            <Grid x:Name="BusyMessage" Background="#70000000" >
                 <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <mcart:BusyIndicator Fill2="white" Margin="10"/>
+                    <mcart:BusyIndicator Stroke="white" Margin="10"/>
                     <TextBlock Text="Exportando documento..." VerticalAlignment="Center" Foreground="White" FontSize="18"/>
                 </WrapPanel>
             </Grid>

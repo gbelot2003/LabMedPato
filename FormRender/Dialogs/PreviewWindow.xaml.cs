@@ -26,15 +26,15 @@ namespace FormRender.Dialogs
         public PreviewWindow()
         {
             InitializeComponent();
-            btnNext.Click += BtnNext_Click;
-            btnPrev.Click += BtnPrev_Click;
-            btnPrint.Click += BtnPrint_Click;
-            btnWord.Click += BtnWord_Click;
-            sldTextSize.ValueChanged += SldTextSize_ValueChanged;
-            sldImgWidth.ValueChanged += SldImgWidth_ValueChanged;
-            busyMessage.SetBinding(VisibilityProperty, new Binding(nameof(IsEnabled))
+            BtnNext.Click += BtnNext_Click;
+            BtnPrev.Click += BtnPrev_Click;
+            BtnPrint.Click += BtnPrint_Click;
+            BtnWord.Click += BtnWord_Click;
+            SldTextSize.ValueChanged += SldTextSize_ValueChanged;
+            SldImgWidth.ValueChanged += SldImgWidth_ValueChanged;
+            BusyMessage.SetBinding(VisibilityProperty, new Binding(nameof(IsEnabled))
             {
-                Source = pnlControls,
+                Source = PnlControls,
                 Converter = new System.Windows.Converters.BooleanToInvVisibilityConverter()
             });
         }
@@ -43,13 +43,15 @@ namespace FormRender.Dialogs
         /// Muestra la vista previa de un informe.
         /// </summary>
         /// <param name="pg"></param>
-        public void ShowInforme(FormPage pg)
+        /// <param name="withHeader"></param>
+        public void ShowInforme(FormPage pg, bool withHeader = true)
         {
-            sldTextSize.Value = pg.TextSize;
-            sldImgWidth.Value = pg.ImgSize;
+            SldTextSize.Value = pg.TextSize;
+            SldImgWidth.Value = pg.ImgSize;
             page = pg;
+            ChkConHeader.IsChecked = withHeader;
             page.View.LayoutUpdated += UpdtLayout;
-            frmPreview.Navigate(pg);
+            FrmPreview.Navigate(pg);
             ShowDialog();
             page.View.LayoutUpdated -= UpdtLayout;
         }
@@ -64,7 +66,7 @@ namespace FormRender.Dialogs
             document.DocumentPaginator.PageSize = sz;
             for (int c = 1; c <= page.PgCount; c++)
             {
-                var p = new FormPage(page.Data, page.Imgs, sz, page.lang, false)
+                var p = new FormPage(page.Data, page.Imgs, sz, page.Lang, false)
                 {
                     ImgSize = page.ImgSize,
                     TextSize = page.TextSize
@@ -75,7 +77,7 @@ namespace FormRender.Dialogs
                 p.Measure(sz);
                 p.Arrange(new Rect(sz));
                 p.UpdateLayout();
-                p.fdpwContent.UpdateLayout();
+                p.FdpwContent.UpdateLayout();
                 if (c == page.PgCount)
                     MessageBox.Show("Imprimiendo documento...", "Imprimir", MessageBoxButton.OK, MessageBoxImage.Information);
                 Grid pc = p.RootContent;
@@ -94,7 +96,7 @@ namespace FormRender.Dialogs
                 ((IAddChild)pageContent).AddChild(fixedPage);
                 document.Pages.Add(pageContent);
             }
-            dialog.PrintDocument(document.DocumentPaginator, $"Biopsia {page.txtBiop.Text}");
+            dialog.PrintDocument(document.DocumentPaginator, $"Biopsia {page.TxtBiop.Text}");
         }
         private void BtnPrev_Click(object sender, RoutedEventArgs e)
         {
@@ -128,27 +130,25 @@ namespace FormRender.Dialogs
         }
         private void SldTextSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (!(page is null))
+            if (page is null) return;
+            while (page.CanPrev)
             {
-                while (page.CanPrev)
-                {
-                    currpg--;
-                    page.PrevPage();
-                }
-                page.TextSize = e.NewValue;
-                page.UndoFirma();
-                if (!page.CanNext) page.DoFirmas();
+                currpg--;
+                page.PrevPage();
             }
+            page.TextSize = e.NewValue;
+            page.UndoFirma();
+            if (!page.CanNext) page.DoFirmas();
         }
         private async void BtnWord_Click(object sender, RoutedEventArgs e)
         {
-            pnlControls.IsEnabled = false;
+            PnlControls.IsEnabled = false;
             try
             {
                 await Task.Run(() =>
                 {
                     var w = new WordInterop();
-                    w.Convert(page.Data, page.Imgs, page.lang);
+                    w.Convert(page.Data, page.Imgs, page.Lang);
                 });
             }
             catch (Exception ex)
@@ -157,7 +157,7 @@ namespace FormRender.Dialogs
             }
             finally
             {
-                pnlControls.IsEnabled = true;
+                PnlControls.IsEnabled = true;
             }
         }
         #endregion
@@ -167,8 +167,8 @@ namespace FormRender.Dialogs
             if (!updt)
             {
                 updt = true;
-                btnPrev.IsEnabled = page.CanPrev;
-                btnNext.IsEnabled = page.CanNext;
+                BtnPrev.IsEnabled = page.CanPrev;
+                BtnNext.IsEnabled = page.CanNext;
 
                 // Necesario, libera al CPU de constantes llamadas de Layout.
                 await Task.Run(() =>
@@ -176,13 +176,23 @@ namespace FormRender.Dialogs
                     Thread.Sleep(100);
                 });
                 int pc = page.PgCount;
-                lblCounter.Text = $"Pág. {currpg}/{pc}";
+                LblCounter.Text = $"Pág. {currpg}/{pc}";
                 page.ShowPager(currpg);
                 page.UndoFirma();
                 if (currpg == pc)
                     page.DoFirmas();
                 updt = false;
             }
+        }
+
+        private void ChkConHeader_OnChecked(object sender, RoutedEventArgs e)
+        {
+            page?.HeadFoot(true);
+        }
+
+        private void ChkConHeader_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            page?.HeadFoot(false);
         }
     }
 }
