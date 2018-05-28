@@ -17,16 +17,16 @@ namespace FormRender.Dialogs
         public LoginDialog()
         {
             InitializeComponent();
-            btnGo.Click += BtnGo_Click;
-            btnClose.Click += (sender, e) => Close();
-            txtUsr.GotFocus += TxtFocus;
-            txtUsr.TextChanged += WarnClear;
-            txtPw.GotFocus += TxtFocus;
-            txtPw.PasswordChanged += WarnClear;
+            BtnGo.Click += BtnGo_Click;
+            BtnClose.Click += (sender, e) => Close();
+            TxtUsr.GotFocus += TxtFocus;
+            TxtUsr.TextChanged += WarnClear;
+            TxtPw.GotFocus += TxtFocus;
+            TxtPw.PasswordChanged += WarnClear;
         }
         private void WarnClear(object sender, RoutedEventArgs e)
         {
-            loginWarning.Text = string.Empty;
+            LoginWarning.Text = string.Empty;
         }
         private void TxtFocus(object sender, RoutedEventArgs e)
         {
@@ -35,13 +35,13 @@ namespace FormRender.Dialogs
         }
         private async void BtnGo_Click(object sender, RoutedEventArgs e)
         {
-            btnGo.IsEnabled = false;
+            BtnGo.IsEnabled = false;
             try
             {
-                if (!await Utils.PatoClient.Login(txtUsr.Text, txtPw.Password))
+                if (!await Utils.PatoClient.Login(TxtUsr.Text, TxtPw.Password))
                 {
-                    loginWarning.Text = "Contraseña inválida.";
-                    txtPw.Focus();
+                    LoginWarning.Text = "Contraseña inválida.";
+                    TxtPw.Focus();
                 }
                 else
                 {
@@ -51,11 +51,11 @@ namespace FormRender.Dialogs
             }
             catch (Exception ex)
             {
-                loginWarning.Text = ex.Message;
+                LoginWarning.Text = ex.Message;
             }
             finally
             {
-                btnGo.IsEnabled = true;
+                BtnGo.IsEnabled = true;
             }
         }
 
@@ -88,12 +88,12 @@ namespace FormRender.Dialogs
         /// </returns>
         public bool GetLogin(string plainPw, ref string usr, out SecureString password)
         {
-            txtUsr.Text = usr;
-            txtPw.Password = plainPw;
-            txtUsr.Focus();
+            TxtUsr.Text = usr;
+            TxtPw.Password = plainPw;
+            TxtUsr.Focus();
             bool retVal = ShowDialog() ?? false;
-            usr = txtUsr.Text;
-            password = txtPw.SecurePassword;
+            usr = TxtUsr.Text;
+            password = TxtPw.SecurePassword;
             return retVal;
         }
     }

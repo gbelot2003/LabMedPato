@@ -15,7 +15,7 @@ namespace FormRender
             {
                 MessageBox.Show(
                     $"Esta aplicación o uno de sus componentes se encuentra" +
-                    $" desactualizado(s). Se requiere MCART {typeof(App).Assembly.GetAttr<MinMCARTVersionAttribute>().Value}");
+                    $" desactualizado(s). Se requiere MCART {typeof(App).Assembly.GetAttr<MinMCARTVersionAttribute>().Value}");                
             }
         }
     }

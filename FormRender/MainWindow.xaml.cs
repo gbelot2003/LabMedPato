@@ -1,12 +1,15 @@
-﻿using FormRender.Models;
+﻿using FormRender.Dialogs;
+using FormRender.Models;
 using FormRender.Pages;
-using TheXDS.MCART;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Controls;
+using System.Windows.Data;
+using TheXDS.MCART;
 using static TheXDS.MCART.Networking.DownloadHelper;
+
 namespace FormRender
 {
     /// <summary>
@@ -25,18 +28,18 @@ namespace FormRender
         public MainWindow()
         {
             InitializeComponent();
-            stckStatus.SetBinding(VisibilityProperty, new Binding(nameof(IsEnabled))
+            StckStatus.SetBinding(VisibilityProperty, new Binding(nameof(IsEnabled))
             {
-                Source = pnlControls,
+                Source = PnlControls,
                 Converter = new System.Windows.Converters.BooleanToInvVisibilityConverter()
             });
-            btnPrint.Tag = new ApiInfo { ruta = null, language = FormRender.Language.Spanish };
-            btnPrint2.Tag = new ApiInfo { ruta = "/eng", language = FormRender.Language.English };
+            BtnPrint.Tag = new ApiInfo { ruta = null, language = FormRender.Language.Spanish };
+            BtnPrint2.Tag = new ApiInfo { ruta = "/eng", language = FormRender.Language.English };
 #if DEBUG
             usr = "gbelot";
             pw = "Luna0102";
-            txtSerie.Text = "111";
-            txtfact.Text = "5130841";
+            TxtSerie.Text = "12463";
+            Txtfact.Text = "5129147";
 #endif
             try
             {
@@ -48,8 +51,8 @@ namespace FormRender
                 MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             Loaded += (sender, e) => { if (queueClose) Close(); };
-            txtSerie.GotFocus += Txts_GotFocus;
-            txtfact.GotFocus += Txts_GotFocus;
+            TxtSerie.GotFocus += Txts_GotFocus;
+            Txtfact.GotFocus += Txts_GotFocus;
         }
 
         private void Txts_GotFocus(object sender, RoutedEventArgs e)
@@ -61,37 +64,37 @@ namespace FormRender
         {
             try
             {
-                pnlControls.IsEnabled = false;
-                pgbStatus.IsIndeterminate = true;
-                lblStatus.Text = $"Obteniendo informe...";
-                var btn = ((sender as Button)?.Tag as ApiInfo) ?? throw new Exception("El control no es un botón o no contiene información de API");
-                var resp = await Utils.PatoClient.GetResponse(int.Parse(txtSerie.Text), int.Parse(txtfact.Text), usr, pw, btn.ruta);
+                PnlControls.IsEnabled = false;
+                PgbStatus.IsIndeterminate = true;
+                LblStatus.Text = "Obteniendo informe...";
+                var btn = (sender as Button)?.Tag as ApiInfo ?? throw new Exception("El control no es un botón o no contiene información de API");
+                var resp = await Utils.PatoClient.GetResponse(int.Parse(TxtSerie.Text), int.Parse(Txtfact.Text), usr, pw, btn.ruta);
                 if (resp is null)
                 {
                     MessageBox.Show("Serie o factura inválidos!", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
-                pgbStatus.IsIndeterminate = false;
+                PgbStatus.IsIndeterminate = false;
 
                 List<LabeledImage> imgs = new List<LabeledImage>();
                 int c = 1;
                 foreach (var j in resp.images)
                 {
-                    pgbStatus.Value = 0;
-                    lblStatus.Text = $"Descargando {j.descripcion ?? "imagen"} ({c}/{resp.images.Length})...";
+                    PgbStatus.Value = 0;
+                    LblStatus.Text = $"Descargando {j.descripcion ?? "imagen"} ({c}/{resp.images.Length})...";
                     var ms = new System.IO.MemoryStream();
                     await DownloadHttpAsync(new Uri(Config.imgPath + j.image_url), ms, (p, t) =>
                     {
-                        pgbStatus.Dispatcher.Invoke(() =>
+                        PgbStatus.Dispatcher.Invoke(() =>
                         {
                             if (p.HasValue)
                             {
-                                pgbStatus.IsIndeterminate = false;
-                                pgbStatus.Value = (p ?? 0) * 100 / t;
+                                PgbStatus.IsIndeterminate = false;
+                                PgbStatus.Value = (long) p * 100 / t;
                             }
                             else
                             {
-                                pgbStatus.IsIndeterminate = true;
+                                PgbStatus.IsIndeterminate = true;
                             }
                         });
                     });
@@ -102,8 +105,8 @@ namespace FormRender
                     });
                     c++;
                 }
-                pgbStatus.Value = 100;
-                lblStatus.Text = "Generando informe...";
+                PgbStatus.Value = 100;
+                LblStatus.Text = "Generando informe...";
                 resp.informe = resp.informe
                     /*
                      * Filtros de reemplazo
@@ -119,7 +122,7 @@ namespace FormRender
                     .Replace("<br/><br/><br/><br/>", "<br/><br/>")          // Remoción de párrafos innecesarios
                     .Replace("</strong><br/><br/>", "</strong><br/>");      // Remoción de cambio de párrafo después de título
 
-                (new PreviewWindow()).ShowInforme(new FormPage(resp, imgs, PageSizes.Carta, btn.language));
+                new PreviewWindow().ShowInforme(new FormPage(resp, imgs, PageSizes.Carta, btn.language), resp.images.Any());
             }
             catch (Exception ex)
             {
@@ -127,8 +130,8 @@ namespace FormRender
             }
             finally
             {
-                lblStatus.Text = null;
-                pnlControls.IsEnabled = true;
+                LblStatus.Text = null;
+                PnlControls.IsEnabled = true;
             }
         }
     }

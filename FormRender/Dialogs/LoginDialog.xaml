@@ -3,18 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
-        xmlns:mcart="clr-namespace:TheXDS.MCART.Controls;assembly=TheXDS.MCART.WPF" xmlns:Converters="clr-namespace:System.Windows.Converters;assembly=TheXDS.MCART.WPF" x:Name="window"
+        xmlns:mcart="clr-namespace:TheXDS.MCART.Controls;assembly=TheXDS.MCART.WPF" xmlns:converters="clr-namespace:System.Windows.Converters;assembly=TheXDS.MCART.WPF" x:Name="Window"
         mc:Ignorable="d"
         x:Class="FormRender.Dialogs.LoginDialog"
         Title="Iniciar sesión" Width="300" Height="300" WindowStyle="None" Background="Gray" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <Converters:StringVisibilityConverter x:Key="StringVisibilityConverter"/>
+        <converters:StringVisibilityConverter x:Key="StringVisibilityConverter"/>
         <SolidColorBrush x:Key="CorpColor" Color="#FF2CCADA"/>
     </Window.Resources>
     <Grid>
-        <Grid>
-            <Image Source="/FormRender;component/Assets/ghost_icon.png" Opacity="0.4" Width="400" Height="400"/>
-        </Grid>
+        <!--<Grid>
+            <Image Source="/FormRender;component/Assets/lab.ico" Opacity="0.1" Width="400" Height="400"/>
+        </Grid>-->
         <DockPanel>
             <Grid Width="60" Background="{StaticResource CorpColor}"/>
             <Grid>
@@ -40,22 +40,22 @@
                         <Setter Property="Background" Value="{x:Null}"/>
                     </Style>
                 </Grid.Resources>
-                <Button x:Name="btnClose" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Top" IsCancel="True">
+                <Button x:Name="BtnClose" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Top" IsCancel="True">
                     <TextBlock Text="X"/>
                 </Button>
                 <StackPanel Margin="30,0" VerticalAlignment="Center">
                     <TextBlock Text="Usuario"/>
-                    <TextBox x:Name="txtUsr"/>
+                    <TextBox x:Name="TxtUsr"/>
                     <Separator Height="30"/>
                     <TextBlock Text="Contraseña"/>
-                    <PasswordBox x:Name="txtPw"/>
+                    <PasswordBox x:Name="TxtPw"/>
                     <Separator Height="30"/>
                     <DockPanel HorizontalAlignment="Center">
-                        <Button x:Name="btnGo" IsDefault="True">
+                        <Button x:Name="BtnGo" IsDefault="True">
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type ButtonBase}">
                                     <Grid Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                        <mcart:BusyIndicator x:Name="bsyGo" Fill2="White" Radius="30" Visibility="Collapsed"/>
+                                        <mcart:BusyIndicator x:Name="bsyGo" Stroke="White" Radius="30" Visibility="Collapsed"/>
                                         <Grid x:Name="grdContent">
                                             <Ellipse x:Name="ellBG" Height="64" Width="64" Stroke="White" StrokeThickness="4" Fill="LightGray"/>
                                             <TextBlock x:Name="arrow" Text="➜" FontSize="40" Margin="3.5" Height="40" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White"/>
@@ -80,7 +80,7 @@
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
-                        <TextBlock x:Name="loginWarning" Margin="10,0,0,0" TextWrapping="Wrap" Foreground="DarkRed" FontSize="10" VerticalAlignment="Center" Visibility="{Binding Text, Converter={StaticResource StringVisibilityConverter}, RelativeSource={RelativeSource Self}}"/>
+                        <TextBlock x:Name="LoginWarning" Margin="10,0,0,0" TextWrapping="Wrap" Foreground="DarkRed" FontSize="10" VerticalAlignment="Center" Visibility="{Binding Text, Converter={StaticResource StringVisibilityConverter}, RelativeSource={RelativeSource Self}}"/>
                     </DockPanel>
                 </StackPanel>
             </Grid>
